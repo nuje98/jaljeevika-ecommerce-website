@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const expressLayouts = require('express-ejs-layouts');
 
 require('dotenv').config();
 
