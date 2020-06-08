@@ -12,12 +12,17 @@
  }
 
 
- #logout
+#logout
  {
-  
   height:50px;
   width:100px;
-    margin-top:30px;
+  margin-top:30px;
+}
+
+#login{
+  height:50px;
+  width:100px;
+  margin-top:30px;
 }
 
 #home{

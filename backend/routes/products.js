@@ -4,9 +4,14 @@ let Product = require('../models/product.model');
 
 // locolhost:5000/products/
 router.route('/').get((req, res) => { 
-    Product.find()
+    /*Product.find()
         .then(products => res.json(products))
-        .catch(err => res.status(400).json('Error: ' + err));
+        .catch(err => res.status(400).json('Error: ' + err)); */
+    Product.find({}, function(err, data){
+        res.render('product.ejs', { 
+           product : data[0]
+        });
+    });
 });
 
 // locolhost:5000/products/add
@@ -18,6 +23,7 @@ router.route('/add').post((req, res) => {
     const imgurl = req.body.imgurl;
     const category = req.body.category;
     const brand = req.body.brand;
+    const vendorlocation = req.body.vendorlocation;
 
     const newProduct = new Product({
         name,
@@ -27,6 +33,7 @@ router.route('/add').post((req, res) => {
         imgurl,
         category,
         brand,
+        vendorlocation
     });
 
     newProduct.save()

@@ -10,10 +10,11 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/css/style.css">
-  <!-- <script src="try.js"></script> -->
 
 </head>
 <body>
+
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-3">
@@ -37,13 +38,13 @@
     <img src="/images/harvest1.png" style="width:450px;height:400px; border-radius: 8px; padding: 5px;">
   </div>
   <div class="col-sm-6">
-   <h3> HARVEST1<br></h3><hr>
+   <h3> <%= product.name %> <br></h3><hr>
   
-  <b>Company Name</b>: BMR Group<br>
-  <b>Category</b>: Feed(crumble)<br>
-  <b>MRP:</b> Rs.2234.00/25Kg<br>
-  <b>Vendor Name:</b> ABC<br>
-  <b>Vendor's Location:</b> ABC<br><br>
+  <b>Company Name</b>:  <%= product.brand %><br>
+  <b>Category</b>: <%= product.category %><br>
+  <b>MRP:</b> Rs.<%= product.price %>/25Kg<br>
+  <b>Vendor Name:</b> <%= product.vendorname %><br>
+  <b>Vendor's Location:</b> <%= product.vendorlocation %><br><br>
   <button type="button" class="btn btn-success btn-md" style="width:200px">Message Vendor</button><br><br>
   <b> DESCRIPTION:</b><br><ol>
    <li>Formulated with balanced nutrotional values for shrimp health  <br>                                                                                        
