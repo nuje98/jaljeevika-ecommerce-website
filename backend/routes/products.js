@@ -1,6 +1,6 @@
 const router = require('express').Router();
 let Product = require('../models/product.model');
-
+const mainController = require('../controllers/main');
 
 // locolhost:5000/products/
 router.route('/').get((req, res) => { 
@@ -41,12 +41,8 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error: '+ err));
 });
 
-router.route('/:id').get((req, res) => {
-    
-    Product.findById(req.params.id)
-        .then(product => res.json(product))
-        .catch(err => res.status(400).json('Error: '+ err));
-});
+// /products/:id
+router.get('/:id', mainController.getProduct);
 
 router.route('/:id').delete((req, res) => {
     

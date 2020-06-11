@@ -15,6 +15,34 @@
 
 <body onload="filterSelection('1')" style="font-family:candara">
 
+  <script>
+    const showResults = (data) => {
+      let displayString = '';
+      if(data.length === 0){
+        displayString += `<li class="list-group-item">No results</li>`;
+      } else{
+        data.forEach(product => {
+          //console.log(product);
+          //console.log(product._id);
+          displayString += `<li class="row list-group-item">
+                              <span style=""><a href="/products/${product._id}"> ${product.name}</a></span> 
+                            </li>`;
+        });
+      }
+      $('#results-display').html(displayString);
+    }
+    const searchProduct = (e) => {
+      console.log(e.value);
+      if(e.value === ''){
+        $('#results-display').html(''); 
+      }else{
+        $("#results").html(e.value)
+        $.get(`/api/main/search?text=${e.value}`, (data, status) => {
+          showResults(data);
+        })
+      }
+    }
+  </script>
 <!-------header part----------->
 
 <div class="container-fluid">
@@ -92,45 +120,23 @@
     </div>
      </div>
      <!--------------search bar in header------------------------------------->
-     <form style="margin-left: 130px; margin-top:-38px;">
-              <div class="dropdown">
-              <input class="form-control" id="myInput" type="text" placeholder="Search.." data-toggle="dropdown" style="width:350px">
-              <ul class="dropdown-menu" style="width:300px">
-              <li style="display: none"><a onclick="filterSelection('2paddle')">2 PADDLE AERATOR</a></li>
-              <li style="display: none"><a onclick="filterSelection('4paddle')">4 PADDLE AERATOR</a></li>
-              <li style="display: none"><a onclick="filterSelection('Apple')">APPLE BIOTECHNOLOGIES</a></li>
-              <li style="display: none"><a onclick="filterSelection('Arun')">ARUN AQUCULTURE</a></li>
-              <li style="display: none"><a onclick="filterSelection('aquacutureequipment')">AQUACULTURE EQUIPMENTS</a></li>
-              <li style="display: none"><a onclick="filterSelection('BMR')">BMR INDUSTRIES PVT.LTD.</a></li>
-              <li style="display: none"><a onclick="filterSelection('Cargill')">CARGILL INDIA PVT. LTD.</a></li>
-              <li style="display: none"><a onclick="filterSelection('Doctor')">DOCTOR'S VET-PHARMA PVT.LTD.</a></li>
-              <li style="display: none"><a onclick="filterSelection('environps')">ENVIRON- PS</a></li>
-              <li style="display: none"><a onclick="filterSelection('ewosrapid')" >EWOS RAPID BOOST</a></li>
-              <li style="display: none"><a onclick="filterSelection('ewosultra')">EWOS ULTRA GROWER</a></li>
-              <li style="display: none"><a onclick="filterSelection('feed')">FEED</a></li>
-              <li style="display: none"><a onclick="filterSelection('fishcage')">FISH CAGE</a></li>
-              <li style="display: none"><a onclick="filterSelection('harvest1')">HARVEST 1</a></li>
-              <li style="display: none"><a onclick="filterSelection('harvests')">HARVEST 3S</a></li>
-              <li style="display: none"><a onclick="filterSelection('healthcare')">HEALTHCARE</a></li>
-              <li style="display: none"><a onclick="filterSelection('madover')">MADOVER AQ. & WATER ARTS PVT.LTD.</a></li>
-              <li style="display: none"><a onclick="filterSelection('mudpump')">MUD PUMP</a></li>
-              <li style="display: none"><a onclick="filterSelection('toolkit')">ORNAMENTAL FISH PURPOSE TOOLKIT</a></li>
-              <li style="display: none"><a onclick="filterSelection('prosense')">PRO-SENSE</a></li>
-              <li style="display: none"><a onclick="filterSelection('residentalaq')">RESIDENTAL AQUARIUM</a></li>
-              <li style="display: none"><a onclick="filterSelection('SRR')">SRR AQUA SUPPLIERS</a></li>
-              <li style="display: none"><a onclick="filterSelection('stonner')">STONNER</a></li>
-              <li style="display: none"><a onclick="filterSelection('virodol')">VIRODOL</a></li>
-              </ul>
-              </div>
-       </form>
+    <div class="col-10 col-sm-6">
+      <input class="form-control" oninput="searchProduct(this);" id="search-product" style="margin-left: 130px; margin-top:-38px; width: 400px;" type="text" placeholder="Search Products here..."/>
+    </div>
+    <div class="row">
+      <div class="col-2 col-sm-1"></div>
+      <div class="col-10 col-sm-11 p-2">
+        <ul class="list-group" id="results-display"></ul>
+      </div>
+    </div>
+    
+
 </div><div class="col-sm-3"></div>
 </div>
-
-
-
-
 <p id="space"></p>
 <div class="row">
+
+
 
 <!------------------DROPDOWN FOR COMPANIES------------------------------------------------------------------->
 <div class="col-sm-4">
@@ -153,159 +159,17 @@
 <div class="row" id="row">
 
 <!-----------------------------product1------------------------------------->
+<% products.forEach(product => { %>
   <div class="column BMR feed 1 harvest1">
     <div class="content">
-     <a href="/products"> <img src="/images/harvest1.png" style="width:100%"  id="p1"></a>
-      
-      <h4><center>HARVEST 1</center></h4>
-      <p><center>BMR INDUSTRIES PVT.LTD.</center></p>
+      <a href="/products/<%= product._id %>"> <img src="/images/<%= product.imgurl %>.jpg" style="width:100%"  id="p1"></a>
+      <h4><center><%= product.name %></center></h4>
+      <p><center><%= product.vendorname %></center></p>
     </div>
   </div>
+<% }) %>
 
 
-
-<!------------------------------product2------------------------------------------------->
-  <div class="column BMR feed 2 harvests">
-    <div class="content">
-    <img src="/images/harvest3s.jpg" style="width:100%" id="p2">
-    
-      <h4><center>HARVEST 3S</center></h4>
-      <p><center>BMR INDUSTRIES PVT.LTD.</center></p>
-    </div>
-  </div>
-
-
-
-
-<!---------------------------product 3--------------------------------------------------------->
-  <div class="column Cargill feed 1 ewosrapid">
-    <div class="content">
-   <center> <img src="/images/ewosrapid.jpg" style="width:70%" id="p3"></center>
-    
-    <h4><center>EWOS RAPID BOOST</center></h4>
-      <p><center>CARGILL INDIA PVT. LTD.</center></p>
-    </div>
-  </div>
-
-
-
-
-
-<!----------------------------------product 4------------------------------------------------------------>
-  
-  <div class="column Cargill feed 2 ewosultra">
-    <div class="content">
-      <center><img src="/images/ewos1.jpg" style="width:70%" id="p4"></center>
-     
-
-      <h4><center>EWOS ULTRA GROWER</center></h4>
-      <p><center>CARGILL INDIA PVT. LTD.</center></p>
-    </div>
-  </div>
-
-
-
-  <!--------------------------product 5------------------------------------------------------------------>
-  <div class="column Doctor healthcare 1 virodol">
-    <div class="content">
-    <img src="/images/virodol.jpg" style="width:100%" id="p5">
- 
-      <h4><center>VIRODOL</center></h4>
-      <p><center>DOCTOR'S VET-PHARMA PVT.LTD.</center></p>
-    </div>
-  </div>
-
-
-
-  <!--------------------------product 6----------------------------------------------------------------->
-  <div class="column Doctor healthcare 1 prosense">
-    <div class="content">
-   <center> <img src="/images/pro.jpg" style="width:80%" id="p6"></center>
-
-    
-      <h4><center>PRO-SENSE</center></h4>
-      <p><center>DOCTOR'S VET-PHARMA PVT.LTD.</center></p>
-    </div>
-  </div>
-
-
-<!-----------------------------product 7------------------------------------------------------------->
-  <div class="column Apple healthcare 2 environps">
-    <div class="content">
-     <center> <img src="/images/stonner.jpg" style="width:80%" id="p7"></center>
-    
-      <h4><center>ENVIRON- PS</center></h4>
-      <p><center>APPLE BIOTECHNOLOGIES</center></p>
-    </div>
-  </div>
-
-  <!--------------------------product 8----------------------------------------------------------------->
-  <div class="column Apple healthcare 3 stonner">
-    <div class="content">
-    <img src="/images/environ.jpg" style="width:100%" id="p8">
-    
-      <h4><center>STONNER</center></h4>
-      <p><center>APPLE BIOTECHNOLOGIES</center></p>
-    </div>
-  </div>
-
-
-  <!---------------------------product 9-------------------------------------------------------------------->
-  <div class="column SRR aquacutureequipment 1 4paddle">
-    <div class="content">
-    <img src="/images/4paddle.jpg" style="width:100%" id="p9">
-   
-      <h4><center>4 PADDLE AERATOR</center></h4>
-      <p><center>SRR AQUA SUPPLIERS</center></p>
-    </div>
-  </div>
-
-
-  <!--------------------------product 10------------------------------------------------------------------------>
-  <div class="column SRR aquacutureequipment 2 fishcage">
-    <div class="content">
-    <img src="/images/cage.jpg" style="width:100%" id="p10">
-    
-      <h4><center>FISH CAGE</center></h4>
-      <p><center>SRR AQUA SUPPLIERS</center></p>
-    </div>
-  </div>
-
-
-
-  <!----------------------------------product11----------------------------------------------------------------->
-  <div class="column Arun aquacutureequipment 2 2paddle">
-    <div class="content">
-    <img src="/images/2paddle.jpg" style="width:100%" id="p11">
-   
-      <h4><center>2 PADDLE AERATOR</center></h4>
-      <p><center>ARUN AQUCULTURE</center></p>
-    </div>
-  </div>
-
-
-  <!--------------------------------product12---------------------------------------------------------------------->
-  <div class="column Arun aquacutureequipment 2 mudpump">
-    <div class="content">
-    <img src="/images/mudpump.jpg" style="width:100%" id="p12">
-    
-      <h4><center>MUD PUMP</center></h4>
-      <p><center>ARUN AQUCULTURE</center></p>
-    </div>
-  </div>
-
-
-
-  <!------------------------------product13---------------------------------------------------------------------------->
-  <div class="column Aquarium toolkit 1 residentalaq">
-    <div class="content">
-    <img src="/images/aquarium.png" style="width:100%" id="p13">
-
-      <h4><center>RESIDENTAL AQUARIUM</center></h4>
-      <p><center>MADOVER AQ. & WATER ARTS PVT.LTD.</center></p>
-    </div>
-  </div>
-  </div>
 
 </div>  <!--------div id == main ---------->
 </div>
@@ -315,7 +179,7 @@
 
 
 <!-----------------------pagination------------------------------------------------>
-<div class="row">
+<!-- <div class="row">
   <div class="col-sm-6"></div>
   <div class="col-sm-6">
   <center><ul class="pagination">
@@ -325,7 +189,7 @@
     <li class="page-item disabled"><a class="page-link"  onclick="filterSelection('4')" >4</a></li>
     <li class="page-item disabled"><a class="page-link"  onclick="filterSelection('5')" >5</a></li>
   </ul></center></div>
-</div><hr>
+</div><hr> -->
 <!-------------------------------------------------------------------------------------->
 
 

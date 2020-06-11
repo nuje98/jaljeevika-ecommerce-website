@@ -18,7 +18,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-3">
-     <img src="images/logo.jpg" id="logo"></div>
+     <img src="/images/logo.jpg" id="logo"></div>
      <div class="col-sm-6">
       <a href="#"><button type="button" class="btn btn-default" id="home">HOME</button></a>
       <a href="#aboutus"><button type="button" class="btn btn-default" id="about">ABOUT US</button></a>
@@ -35,16 +35,16 @@
 <div class="row">
 
   <div class="col-sm-4">
-    <img src="/images/harvest1.png" style="width:360px;height:400px; border-radius: 8px; padding: 5px;">
+    <img src="/images/<%= imgurl %>.jpg" style="width:360px;height:400px; border-radius: 8px; padding: 5px;">
   </div>
   <div class="col-sm-6">
-   <h3> <%= product.name %> <br></h3><hr>
+   <h3> <%= name %> <br></h3><hr>
   
-  <b>Company Name</b>:  <%= product.brand %><br>
-  <b>Category</b>: <%= product.category %><br>
-  <b>MRP:</b> Rs.<%= product.price %>/25Kg<br>
-  <b>Vendor Name:</b> <%= product.vendorname %><br>
-  <b>Vendor's Location:</b> <%= product.vendorlocation %><br><br>
+  <b>Company Name</b>: <%= brand %><br>
+  <b>Category</b>: <%= category %><br>
+  <b>MRP:</b> Rs.<%= price %><br>
+  <b>Vendor Name:</b><%= vendorname %> <br>
+  <b>Vendor's Location:</b> <%= vendorlocation %><br><br>
   <button type="button" class="btn btn-success btn-md" style="width:200px">Message Vendor</button><br><br>
   <b> DESCRIPTION:</b><br><ol>
    <li>Formulated with balanced nutrotional values for shrimp health  <br>                                                                                        
