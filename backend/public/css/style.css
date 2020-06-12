@@ -65,15 +65,20 @@
   }
 
 #comp{
-    margin-left:70px;
-    width:350px;
+    margin-left:40px;
+    width:300px;
 }
+
 #comp_list{
-   margin-left:70px;
-   width:350px;
+   margin-left:40px;
+   width:300px;
    padding: 8px;
    text-align: center;
 
+}
+.content{
+  height:330px;
+  width:220px;
 }
 
 #p1,#p2,#p3,#p4,#p5,#p6,#p7,#p8,#p9,#p10,#p11,#p12,#p13

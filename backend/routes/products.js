@@ -1,18 +1,58 @@
 const router = require('express').Router();
 let Product = require('../models/product.model');
-
+const mainController = require('../controllers/main');
 
 // locolhost:5000/products/
 router.route('/').get((req, res) => { 
     /*Product.find()
         .then(products => res.json(products))
         .catch(err => res.status(400).json('Error: ' + err)); */
+
+
+        if (req.query.location !=''){
+            const userlocation = req.user.location;
+            Product.find( {vendorlocation: userlocation},(err,data)=>{
+                res.render('/',{products : products })
+                })
+            }
+        if (req.query.price!=''){
+                if (req.query.price == "high"){
+                        Product.find().sort({price:-1})
+                        .then((err,products) => {res.render('/', {products :products})
+                })
+            }
+                else {
+            
+            Product.find().sort({price:1})
+            .then((err,products) => {res.render('/', {products : products})
+                })
+            }
+        }
+        
+        if(req.query.category!='')
+        {
+        const category = req.query.cat
+        Product.find( {category: category}, (err, data)=>{
+            res.render('/',{products : products })
+        })
+    
+    }
+    if (req.query.brand!='')
+        {
+    const brandname = req.query.brand
+    Product.find( {brand: brandname },(err, data)=>{
+        res.render('/',{products : products })
+    })
+        }
     Product.find({}, function(err, data){
         res.render('product.ejs', { 
            product : data[0]
         });
     });
 });
+
+
+
 
 // locolhost:5000/products/add
 router.route('/add').post((req, res) => {
@@ -41,12 +81,8 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error: '+ err));
 });
 
-router.route('/:id').get((req, res) => {
-    
-    Product.findById(req.params.id)
-        .then(product => res.json(product))
-        .catch(err => res.status(400).json('Error: '+ err));
-});
+// /products/:id
+router.get('/:id', mainController.getProduct);
 
 router.route('/:id').delete((req, res) => {
     
