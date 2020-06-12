@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let Product = require('../models/product.model');
 const mainController = require('../controllers/main');
+const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 // locolhost:5000/products/
 router.route('/').get((req, res) => { 

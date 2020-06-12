@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Jaljeevika Login Form</title>
+	<title>User Login</title>
 	<!-- Meta-Tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="utf-8">
@@ -24,14 +24,14 @@
 </head>
 
 <body>
-	<h1>Vendor Login</h1>
+	<h1>Welcome to User Login</h1>
 	<div class="ls-login box box--big">
 		<!-- form starts here -->
 		<%- include ("./partials/messages") %>
 				
-		<form action="/vendor/login" method="POST">
+		<form action="/users/login" method="POST">
 			<div class="agile-field-txt">
-				<label> Username</label>
+				<label>Email</label>
 				<input type="text" name="email" id="email" placeholder="Enter User Name" required="" />
 			</div>
 			<div class="agile-field-txt">
@@ -40,8 +40,8 @@
 				<div class="agile_label">
 					<input id="check3" name="check3" type="checkbox" value="show password" onclick="myFunction()">
 					<label class="check" for="check3">Show password</label>
-				</div>
-				<div class="agile-right">
+                </div>
+                <div class="agile-right">
 					<a href="#">forgot password?</a>
 				</div>
 			</div>
@@ -69,7 +69,6 @@
 				<input type="submit" value="SIGN IN">
 		</form>
 	</div>
-	
 	<!--//copyright-->
 </body>
 </html>

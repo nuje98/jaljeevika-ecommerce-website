@@ -2,15 +2,14 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-//const Regex = require("regex");
-
 var url = require('url');
 var http = require('http');
+const { vforwardAuthenticated } = require('../config/auth-vendor');
+//const Regex = require("regex");
 
 // Vendor Model
 const Vendor = require('../models/Vendor');
 const contact = require('../models/Vendorcontact')
-const { vforwardAuthenticated } = require('../config/auth-vendor');
 
 // Welcome Page
 router.get('/', vforwardAuthenticated, (req, res) => res.render('vendorhome'));
@@ -19,18 +18,10 @@ router.get('/', vforwardAuthenticated, (req, res) => res.render('vendorhome'));
 router.get('/login', vforwardAuthenticated, (req, res) =>res.render('vendorlogin'));
 
 // Contact Page
-router.get('/contact', vforwardAuthenticated, (req, res) => res.render('vendorcontact'));
+router.get('/contact', vforwardAuthenticated,  (req, res) => res.render('vendorcontact'));
 
 // Registration Page
-router.get('/register', vforwardAuthenticated, (req, res) => res.render('vendorreg'));
-
-// Vendor Dashboard
-router.get('/dashboard', (req, res)=>{
-    console.log(req.passport)
-    console.log(req.session)
-    res.render('Vendordashboard')
-
-})
+router.get('/register', vforwardAuthenticated,  (req, res) => res.render('vendorreg'));
 
 // Contact Handle
 router.post('/contact',(req,res )=>{
@@ -58,16 +49,11 @@ router.post('/contact',(req,res )=>{
     }).catch(()=>{
         res.send("Err")
     })
+
    /* contact.find({}, (err, data)=>{
         console.log(data)
     })*/
-})
-
-
-// router.get('/vendordashboard', vforwardAuthenticated, (req, res) => {
-    
-//     res.render('vendorlogin')
-// })
+});
 
 // Send Handle
 router.post('/send', (req, res)=>{
@@ -78,18 +64,16 @@ router.post('/send', (req, res)=>{
         errors.push({ msg: 'Please type something'});
         
     }
-    if(errors.length >0)
-    {
+    if(errors.length >0){
         res.render('vendorcontact', {
             errors,
-                 });
-}
-})
+        });
+    }
+});
 
 // Register Handle
 router.post('/register', (req, res) => {
     
-    console.log("a")
     const name = req.body.name;
     const vendorname = req.body.vendorname
     const email = req.body.email;
@@ -113,39 +97,18 @@ router.post('/register', (req, res) => {
     // Check required fields
     if(!name || !pancard || !gst|| !vendorname || !password || !password2 || !email || !phone || !address1 || !address2 || !district || !state || !country || !pincode){
         errors.push({ msg: 'Please fill in all the required fields'});
-        console.log(password2, password)
     }
-
 
     // Check passwords match
     if(password !== password2){
         errors.push({ msg: 'Passwords do not match'});
     }
 
-    
-    
     // Check password length
-    /*
-    console.log(phone)
-    var emailregex = new Regex(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)
-    var phoneregex = new Regex(/^\d{10}/);
-    var addressregex = new Regex(/^[a-zA-Z0-9.-]+$/)
-    if ( !emailregex.test(email) )
-    {
-        errors.push({ msg: 'Incorrect Mail Format'});
+    if(password.length < 6){
+        errors.push({ msg: 'Password should be at least 6 characters long'});
     }
-    
-    //we can implement it with js while typing
-   
-    if (!addressregex.test(address1) || !addressregex.test(address2))
-    {
-        errors.push({msg: 'Address isnt valid'})
-    }
-    if(!(phoneregex.test(phone)))
-    {
-        errors.push({ msg: 'Phone Number is incorrect'});
-    }
-    */
+
     if(conditions !="agreed"){
         errors.push({msg :'Please agree to the use of privacy and conditions'})
     }
@@ -155,6 +118,33 @@ router.post('/register', (req, res) => {
         res.render('vendorreg', {
             errors,
             name,
+            vendorname, 
+            email, 
+            phone,
+            password, 
+            gst, 
+            pancard, 
+            address1, 
+            address2, 
+            landmark,
+            district, 
+            state, 
+            country, 
+            pincode
+        });
+    }
+    else
+    {   
+        // Validation passed
+        Vendor.findOne({ email: email})
+            .then(vendor => {
+                if(vendor)
+                {
+                    // Vendor exists
+                    errors.push({ msg: 'Email is already registered'});
+                    res.render('vendorreg', {
+                        errors,
+                        name,
                         vendorname, 
                         email, 
                         phone,
@@ -168,32 +158,6 @@ router.post('/register', (req, res) => {
                         state, 
                         country, 
                         pincode
-        
-        });
-    }
-    else
-    {   Vendor.findOne({ phone: phone})
-            .then(user => {
-                if(user)
-                {
-                    // User exists
-                    errors.push({ msg: 'Phone Number is already registered'});
-                    res.render('vendorreg', {
-                        errors,
-                    });
-                }
-            });
-
-        // Validation passed
-        Vendor.findOne({ email: email})
-            .then(user => {
-                if(user)
-                {
-                    // User exists
-                    errors.push({ msg: 'Email is already registered'});
-                    res.render('vendorreg', {
-                        errors,
-                     
                     });
                 } 
                 else
@@ -241,7 +205,7 @@ router.post('/register', (req, res) => {
 // Login Handle
 router.post('/login', (req, res, next) => {
     passport.authenticate('vendor', {
-      successRedirect: '/vendor/dashboard',
+      successRedirect: '/vendordashboard',
       failureRedirect: '/vendor/login',
       failureFlash: true
     })(req, res, next);
@@ -254,4 +218,4 @@ router.get('/logout', (req, res) => {
     res.redirect('/vendor/login');
 });
 
-module.exports = router;
+module.exports = router; 

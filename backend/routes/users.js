@@ -8,13 +8,13 @@ const User = require('../models/user.model');
 const { forwardAuthenticated } = require('../config/auth');
 
 // Welcome Page
-router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
+router.get('/', forwardAuthenticated, (req, res) => res.render('userhome'));
 
 // Login Page
-router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
+router.get('/login', forwardAuthenticated, (req, res) => res.render('userlogin'));
 
 // Registrstion Page
-router.get('/register', forwardAuthenticated, (req, res) => res.render('register'));
+router.get('/register', forwardAuthenticated, (req, res) => res.render('userreg'));
 
 // Register Handle
 router.post('/register', (req, res) => {
@@ -97,7 +97,7 @@ router.post('/register', (req, res) => {
 
 // Login
 router.post('/login', (req, res, next) => {
-    passport.authenticate('local', {
+    passport.authenticate('user', {
       successRedirect: '/dashboard',
       failureRedirect: '/users/login',
       failureFlash: true
