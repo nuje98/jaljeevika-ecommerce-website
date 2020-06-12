@@ -5,7 +5,7 @@ const apiMain = require('./api-main');
 let Product = require('../models/product.model');
 
 // Welcome Page
-router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
+router.get('/', forwardAuthenticated, (req, res) => res.render('logreg'));
 
 // Dashboard
 router.route('/dashboard').get((req, res) => { 
