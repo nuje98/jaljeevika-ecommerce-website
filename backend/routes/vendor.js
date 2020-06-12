@@ -34,7 +34,6 @@ router.get('/dashboard', (req, res)=>{
 
 // Contact Handle
 router.post('/contact',(req,res )=>{
-
     const name = req.body.name
     const email = req.body.email
     const subject = req.body.subject
