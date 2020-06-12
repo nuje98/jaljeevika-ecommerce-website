@@ -10,6 +10,7 @@ module.exports = {
       if (!req.isAuthenticated()) {
         return next();
       }
-      res.redirect('/vendordashboard');      
+      res.redirect('/vendor/dashboard');          
+
     }
   };
