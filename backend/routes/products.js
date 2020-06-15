@@ -1,10 +1,10 @@
 const router = require('express').Router();
 let Product = require('../models/product.model');
 const mainController = require('../controllers/main');
-const isAuth = require('../middleware/is-auth');
+const isUser = require('../middleware/is-user');
 
 // locolhost:5000/products/
-router.route('/').get(isAuth, (req, res) => { 
+router.route('/').get(isUser, (req, res) => { 
     /*Product.find()
         .then(products => res.json(products))
         .catch(err => res.status(400).json('Error: ' + err)); */
@@ -52,9 +52,6 @@ router.route('/').get(isAuth, (req, res) => {
     });
 });
 
-
-
-
 // locolhost:5000/products/add
 router.route('/add').post((req, res) => {
     const name = req.body.name;
@@ -83,8 +80,9 @@ router.route('/add').post((req, res) => {
 });
 
 // /products/:id
-router.get('/:id', isAuth, mainController.getProduct);
+router.get('/:id', isUser, mainController.getProduct);
 
+// delete product
 router.route('/:id').delete((req, res) => {
     
     Product.findByIdAndDelete(req.params.id)
@@ -92,6 +90,7 @@ router.route('/:id').delete((req, res) => {
         .catch(err => res.status(400).json('Error: '+ err));
 });
 
+//update product
 router.route('/update/:id').post((req, res) => {
     
     Product.findById(req.params.id)

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/users');
-const isAuth = require('../middleware/is-auth');
+const isUser = require('../middleware/is-user');
 
 //User home route
 router.get('/', authController.getHome);
@@ -15,6 +15,6 @@ router.get('/register', authController.getSignup);
 router.post('/register', authController.postSignup);
 
 //logout routes
-router.get('/logout', isAuth, authController.logout);
+router.get('/logout', isUser, authController.logout);
 
 module.exports = router;

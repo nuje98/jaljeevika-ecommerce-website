@@ -8,8 +8,22 @@ exports.getHome = (req, res, next) => {
 	});
 };
 
+exports.getAddProduct = (req, res, next) => {
+	res.render('addproduct',{
+		title: 'Add Product',
+		path: '/vendor/addProduct'
+	});
+};
+
+exports.getProducts = (req, res, next) => {
+	res.render('productcard',{
+		title: 'My Products',
+		path: '/vendor/myProducts'
+	});
+};
+
 exports.getSignup = (req, res, next) => {
-	res.render('vendorreg',{
+	res.render('vendorreg2',{
 		title: ' Vendor Register',
 		isLoggedIn : req.session.isLoggedIn || false, 
 		path: '/vendor/register'
@@ -66,7 +80,7 @@ exports.postSignup = (req, res, next) => {
 
     if(errors.length >0)
     {
-        res.render('vendorreg', {
+        res.render('vendorreg2', {
             errors,
             name,
             vendorname, 
@@ -93,7 +107,7 @@ exports.postSignup = (req, res, next) => {
                 {
                     // Vendor exists
                     errors.push({ msg: 'Email is already registered'});
-                    res.render('vendorreg', {
+                    res.render('vendorreg2', {
                         errors,
                         name,
                         vendorname, 
