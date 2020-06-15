@@ -21,7 +21,7 @@ router.post('/send', isAuth, authController.postSend);
 router.get('/logout', isAuth, authController.logout);
 
 //contact routes
-router.get('/contact', isAuth, authController.getContact);
-router.post('/contact', isAuth, authController.postContact);
+router.get('/contact', authController.getContact);
+router.post('/contact', authController.postContact);
 
 module.exports = router;
