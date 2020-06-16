@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <% products.forEach(product => { %>
+        <div style="height:330px; width:220px;">
+            <a href="/products/<%= product._id %>"> <img src="/images/<%= product.imgurl %>.jpg" style="width:100%"  id="p1"></a>
+            <h4><center><%= product.name %></center></h4>
+            <p><center><%= product.vendorname %></center></p>
+            <form method="DELETE" action="/products/<%= product._id %>">
+                <button type="submit">Delete resource</button>
+            </form>>
+            <button id="delete">Delete</button>
+            <button id="auth">Authorize</button>
+        </div>    
+      <% }) %>
+</body>
+</html>

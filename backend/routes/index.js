@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const isUser = require('../middleware/is-user');
 const isVendor = require('../middleware/is-vendor');
+const isAdmin = require('../middleware/is-admin');
 const apiMain = require('./api-main');
 let Product = require('../models/product.model');
 
@@ -10,9 +11,18 @@ router.get('/', (req, res) => res.render('logreg'));
 
 // User Dashboard
 router.route('/dashboard').get(isUser,(req, res) => { 
-  Product.find({}, function(err, data){
+  Product.find({isAuthorised: true}, function(err, data){
       res.render('dashboard', { 
          products : data.slice(0,6)
+      });
+  });
+});
+
+// Admin Dashboard
+router.route('/admindashboard').get(isAdmin,(req, res) => { 
+  Product.find({isAuthorised: false}, function(err, data){
+      res.render('admindashboard', { 
+         products : data
       });
   });
 });

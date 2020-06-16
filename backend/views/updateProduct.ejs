@@ -18,32 +18,32 @@
 <body>
 	<div class="banner-main">
 		<div class="center-container">
-			<h1 class="header" style="text-align: center; padding-top:20px; font-size:20px;">ADD PRODUCT</h1>
+			<h1 class="header" style="text-align: center; padding-top:20px; font-size:20px;">UPDATE PRODUCT</h1>
 			<div class="content-top">
 				<div class="content-ls">
 					<div class="form">
-						<form action="/products/add" method="post">
+						<form action="/products/update/<%= product._id %>" method="post">
 							<div class="content">
 								<div class="grid-agileits1">
 									<div class="form-control"> 
 										<label class="header">Product Name</label>
-										<input type="text" id="name" name="name" placeholder="" title="Please enter the Product Name" required="">
+										<input type="text" id="name" name="name" value="<%= product.name %>" title="Please enter the Product Name" required="">
 									</div>
 									
 							<div class="form-control Insurance"> 
 									<label class="header">Description</label>
-									<textarea  name="description" placeholder="" title="Enter a description" required=""></textarea>
+									<textarea  name="description" value="<%= product.description %>" title="Enter a description" required=""></textarea>
 							</div>
 									
 									
 					<div class="form">
 						<div class="form-control">	
 							<label class="header">Price</label>
-							<input type="text" id="name" name="price" placeholder="" title="Please enter a Price" required="">
+							<input type="text" id="name" name="price" value="<%= product.price %>" title="Please enter a Price" required="">
 						</div>					
 						<div class="form-control"> 
 							<label class="header">Vendor Name </label>
-							<input type="text" id="name" name="vendorname" placeholder="" title="Please enter your  Name" required="">
+							<input type="text" id="name" name="vendorname" value="<%= product.vendorname %>" title="Please enter your  Name" required="">
 						</div>	
 <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
 <!--
@@ -65,11 +65,11 @@
 				</div> -->
 						<div class="form-control"> 
 							<label class="header">Image URL </label>
-							<input type="text" id="name" name="imgurl" placeholder="" title="Please enter the image url" required="">
+							<input type="text" id="name" name="imgurl" value="<%= product.imgurl %>" title="Please enter the image url" required="">
 						</div>
 						<div class="form-control"> 
 							<label class="header">Brand </label>
-							<input type="text" id="name" name="brand" placeholder="" title="Please enter a Brand" required="">
+							<input type="text" id="name" name="brand" value="<%= product.brand %>" title="Please enter a Brand" required="">
 						</div>
 						<!-- <div class="form-control">
 								<label class="header">Category </label>		
@@ -83,14 +83,14 @@
 						</div> -->
 						<div class="form-control"> 
 							<label class="header">Category </label>
-							<input type="text" id="name" name="category" placeholder="" title="Please enter a Category" required="">
+							<input type="text" id="name" name="category" value="<%= product.category %>" title="Please enter a Category" required="">
 						</div>
                         <div class="form-control"> 
 							<label class="header">Vendor Loction </label>
-							<input type="text" id="name" name="vendorlocation" placeholder="" title="Please enter a location" required="">
+							<input type="text" id="name" name="vendorlocation" value="<%= product.vendorlocation %>" title="Please enter a location" required="">
 						</div>
 							
-									  <input type="submit" value="Add Product">
+									  <input type="submit" value="Update Product">
 									  </form>
 					</div>	
 </div>

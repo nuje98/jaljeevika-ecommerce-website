@@ -1,5 +1,6 @@
 const Vendor = require('../models/Vendor');
 const bcrypt = require('bcryptjs');
+let Product = require('../models/product.model');
 
 exports.getHome = (req, res, next) => {
 	res.render('vendorhome',{
@@ -9,17 +10,20 @@ exports.getHome = (req, res, next) => {
 };
 
 exports.getAddProduct = (req, res, next) => {
-	res.render('addproduct',{
+    res.render('addproduct',{
 		title: 'Add Product',
-		path: '/vendor/addProduct'
-	});
+        path: '/vendor/vendorhome',
+    });
 };
 
 exports.getProducts = (req, res, next) => {
-	res.render('productcard',{
-		title: 'My Products',
-		path: '/vendor/myProducts'
-	});
+    Product.find({vendorname: "APPLE Biotechnologies"}, function(err, data){
+        res.render('productcard', { 
+           products : data,
+           title: 'My Products',
+		    path: '/vendor/myProducts'
+        });
+    });
 };
 
 exports.getSignup = (req, res, next) => {
