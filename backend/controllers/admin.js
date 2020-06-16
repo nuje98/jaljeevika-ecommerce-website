@@ -1,26 +1,26 @@
-const User = require('../models/user.model');
+const Admin = require('../models/admin');
 const bcrypt = require('bcryptjs');
 
 exports.getHome = (req, res, next) => {
-	res.render('userhome',{
-		title: ' User Home',
-		path: '/users/'
+	res.render('adminhome',{
+		title: ' Admin Home',
+		path: '/admin'
 	});
 };
 
 exports.getSignup = (req, res, next) => {
-	res.render('userreg',{
-		title: ' User Register',
+	res.render('adminreg',{
+		title: ' Admin Register',
 		isLoggedIn : req.session.isLoggedIn || false, 
-		path: '/users/register'
+		path: '/admin/register'
 	});
 };
 
 exports.getLogin = (req, res, next) => {
-	res.render('userlogin',{
-		title: ' User Login', 
+	res.render('adminlogin',{
+		title: ' Admin Login', 
 		isLoggedIn : req.session.isLoggedIn || false, 
-		path: '/users/login'
+		path: '/admin/login'
 	});
 };
 
@@ -47,7 +47,7 @@ exports.postSignup = (req, res, next) => {
 
     if(errors.length >0)
     {
-        res.render('userreg', {
+        res.render('adminreg', {
             errors,
             name,
             email,
@@ -58,13 +58,13 @@ exports.postSignup = (req, res, next) => {
     else
     {
         // Validation passed
-        User.findOne({ email: email})
-            .then(user => {
-                if(user) 
+        Admin.findOne({ email: email})
+            .then(admin => {
+                if(admin) 
                 {
-                    // User exists
+                    // Admin exists
                     errors.push({ msg: 'Email is already registered'});
-                    res.render('userreg', {
+                    res.render('adminreg', {
                         errors,
                         name,
                         email,
@@ -74,7 +74,7 @@ exports.postSignup = (req, res, next) => {
                 } 
                 else 
                 {
-                    const newUser = new User({
+                    const newAdmin = new Admin({
                         name,
                         email,
                         password
@@ -82,17 +82,17 @@ exports.postSignup = (req, res, next) => {
                     
                     // Hash Password
                     bcrypt.genSalt(10, (err, salt) => {
-                        bcrypt.hash(newUser.password, salt, (err, hash) => {
+                        bcrypt.hash(newAdmin.password, salt, (err, hash) => {
                           if (err) throw err;
-                          newUser.password = hash;
-                          newUser
+                          newAdmin.password = hash;
+                          newAdmin
                             .save()
-                            .then(user => {
+                            .then(admin => {
                               req.flash(
                                 'success_msg',
                                 'You are now registered and can log in'
                               );
-                              res.redirect('/users/login');
+                              res.redirect('/admin/login');
                             })
                             .catch(err => console.log(err));
                         });
@@ -105,34 +105,34 @@ exports.postSignup = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
 	const email = req.body.email;
 	const password = req.body.password;
-	User.findOne({ email: email})
-		.then(user => {
-			if(!user){
-				console.log("No user with that email id exists!!");
+	Admin.findOne({ email: email})
+		.then(admin => {
+			if(!admin){
+				console.log("No admin with that email id exists!!");
 				req.flash('error','Invalid email or password!');
-				return res.redirect('/users/login');
+				return res.redirect('/admin/login');
 			}
 			bcrypt
-				.compare(password, user.password)
+				.compare(password, admin.password)
 				.then(doMatch => {
 					if(doMatch){
 						console.log("Matched");
 						req.session.isLoggedIn = true;
-						req.session.user = user;
+						req.session.admin = admin;
 						return req.session.save(err => {
 							console.log(err);
 							req.flash('error', err);
-							res.redirect('/dashboard');
+							res.redirect('/admindashboard');
 						});
 					}
 					console.log('Invalid email or password!');
 					req.flash('error', 'Invalid email or password!');
-					return res.redirect('/users/login');
+					return res.redirect('/admin/login');
 				})
 				.catch(err => {
 					console.log(err);
 					req.flash('error', 'Invalid email or password!');
-					return res.redirect('/users/login');
+					return res.redirect('/admin/login');
 				})
 			})
 			.catch(err => console.log(err));
@@ -143,6 +143,6 @@ exports.logout = (req, res, next) => {
 	req.flash('success','Logged out successfully');
 	req.session.destroy(err => {
 		console.log(err);
-		return res.redirect('/users/login');
+		return res.redirect('/admin/login');
 	});
 }
