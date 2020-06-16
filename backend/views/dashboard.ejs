@@ -10,11 +10,8 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <link href="/css/style.css" rel="stylesheet" type="text/css">
-
 </head>
-
 <body onload="filterSelection('1')" style="font-family:candara">
-
   <script>
     const showResults = (data) => {
       let displayString = '';
@@ -43,29 +40,23 @@
       }
     }
   </script>
-<!-------header part----------->
 
-<div class="container-fluid">
-  <div class="row">
+
+ <div class="row">
     <div class="col-sm-3">
-     <img src="/images/logo.jpg" id="logo"></div>
+     <img src="/images/logo.jpg" id="logo">
+    </div>
      <div class="col-sm-6">
       <a href="/dashboard"><button type="button" class="btn btn-default" id="home">HOME</button></a>
       <a href="/aboutus"><button type="button" class="btn btn-default" id="about">ABOUT US</button></a>
       <a href="/services"><button type="button" class="btn btn-default" id="services">SERVICES</button></a>
       <a href="/contactus"><button type="button" class="btn btn-default" id="contact">CONTACT US</button></a>
-      
-<!------------------------------------------------------------------------>
     </div>
-        
-        <div class="col-sm-3">
-            <a href="/users/logout"><button id="logout"><i class='fas fa-user-alt'></i>Logout</button></a>
+      <div class="col-sm-3">
+        <a href="/users/logout"><button id="logout"><i class='fas fa-user-alt'></i>Logout</button></a>
         </div>
     </div>
-
     <p id="space"></p>
-    <!----------for spacing------------------------------------>
-
 
 <!----------------CAROUSEL--------------------------------------------------------------------------->
 <div id="car" class="carousel slide" data-ride="carousel">
@@ -104,132 +95,199 @@
     <span class="carousel-control-next-icon"></span>
   </a>
 </div>
+<!----------------------search bar---------------------------------------------->
 
-<!-----------------Main - BODY------------------------------------------------------------------------------------->
+      <p id="space"></p>
+      <center><input class="form-control" oninput="searchProduct(this);" id="search-product" style=" width: 400px;" type="text" placeholder="Search Products here..."/>
+     <ul class="list-group" id="results-display" style="width:360px"></ul></center>
+  <!--------------------------------------------------------------------------->
 
-<div class="row">
-  <div class="col-sm-3"></div>
-  <div class="col-sm-6">
- <p id="space"></p>
-      <div class="dropdown">
-     <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" style="margin-left: 20px">Category</button>
-    <div class="dropdown-menu">
-      <a class="dropdown-item"  onclick="filterSelection('feed')">Feed</a>
-      <a class="dropdown-item"  onclick="filterSelection('healthcare')">HealthCare</a>
-      <a class="dropdown-item" onclick="filterSelection('aquacutureequipment')">Aquaculture Equipments</a>
-      <a class="dropdown-item"  onclick="filterSelection('toolkit')">Ornamental fish purpose Toolkit</a>
-    </div>
-     </div>
-     <!--------------search bar in header------------------------------------->
-    <div class="col-10 col-sm-6">
-      <input class="form-control" oninput="searchProduct(this);" id="search-product" style="margin-left: 130px; margin-top:-38px; width: 400px;" type="text" placeholder="Search Products here..."/>
-    </div>
-    <div class="row">
-      <div class="col-2 col-sm-1"></div>
-      <div class="col-10 col-sm-11 p-2">
-        <ul class="list-group" id="results-display"></ul>
-      </div>
-    </div>
+
+
+
+
+  <!------------filter--------------------------------------------------------------------->
+  <div class="row">
+  <div class="col-sm-4" style="width:300px;">
     
+        <button type="button" class="btn btn-success" id="filter" style="width:300px">Filter</button>
+        <ul class="list-group" id="filt_list" style="width:300px">
+        <form>
+        Clear Filters<br>
+        
+        <!--------category-------------------->
+        
+        <button type="button" class="btn btn-success btn-sm" id="cat" style="width:270px">Category</button>
+        <div style="border-style:groove;width:270px">
+        <ul class="list-group" id="cat_list"style="width:270px">	
+           <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="category" id="Feed" value="Feed">
+          <label class="form-check-label" for="Feed" style="width:270px">
+            Feed
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="category" id="HealthCare" value="HealthCare">
+          <label class="form-check-label" for="HealthCare" style="width:270px">
+            HealthCare
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="category" id="Aquaculture Equipments" value="Aquaculture Equipments">
+          <label class="form-check-label" for="Aquaculture Equipments" style="width:270px">
+            Aquaculture Equipments
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="category" id="Ornamental fish purpose Toolkit" value="Ornamental fish purpose Toolkit">
+          <label class="form-check-label" for="Ornamental fish purpose Toolkit" style="width:270px">
+            Ornamental fish purpose Toolkit
+          </label>
+        </div>
+        </ul></div>
+        
+        
+        <!--------company------------------------>
+        
+        <button type="button" class="btn btn-success btn-sm" id="compan" style="width:270px">Company</button>
+        <div style="border-style:groove;width:270px">
+        <ul class="list-group" id="compan_list" style="width:270px">
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="company" id="BMR" value="BMR">
+          <label class="form-check-label" for="BMR" style="width:270px">
+            BMR Industries Pvt.Ltd.
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="company" id="Cargill" value="Cargill">
+          <label class="form-check-label" for="Cargill" style="width:270px">
+            Cargill India Pvt. Ltd.
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="company" id="Doctor" value="Doctor">
+          <label class="form-check-label" for="Doctor" style="width:270px">
+            Doctor's Vet -Pharma Pvt.Ltd.
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="company" id="Apple" value="Apple">
+          <label class="form-check-label" for="Apple" style="width:270px">
+            APPLE Biotechnologies
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="company" id="SRR" value="SRR">
+          <label class="form-check-label" for="SRR" style="width:270px">
+            SRR AQUA SUPPLIERS
+          </label>
+        </div>
+        <div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="company" id="Arun" value="Arun">
+          <label class="form-check-label" for="Arun" style="width:270px">
+            ARUN AQUCULTURE
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="company" id="MadOverFish" value="MadOverFish">
+          <label class="form-check-label" for="MadOverFish" style="width:270px">
+            MadOverFish Aquarium & Water Arts Pvt.ltd
+          </label>
+        </div>
+        </ul></div>
+        
+        
+        <!---------------------price-------------------------->
+        
+        <button type="button" class="btn btn-success btn-sm" id="pri" style="width:270px">Price</button>
+        <div style="border-style:groove;width:270px">
+        <ul class="list-group" id="pri_list" style="width:270px">	
+           <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="price" id="less1000" value="less1000">
+          <label class="form-check-label" for="less1000" style="width:270px">
+            Less than 1000
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="price" id="1000-2000" value="1000-2000">
+          <label class="form-check-label" for="1000-2000" style="width:270px">
+           1000-2000
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="price" id="2000-2500" value="2000-2500">
+          <label class="form-check-label" for="2000-2500" style="width:270px">
+            2000-2500
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="price" id="more2500" value="more2500">
+          <label class="form-check-label" for="more2500" style="width:270px">
+            More than 2500
+          </label>
+        </div>
+        </ul></div>
+        
+        
+        
+        <!------------location------------------->
+        
+        <button type="button" class="btn btn-success btn-sm" id="loc"style="width:270px">Location</button>
+        <div style="border-style:groove;width:270px">
+        <ul class="list-group" id="location_list" style="width:270px">
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="location" id="Pune" value="Pune">
+          <label class="form-check-label" for="Pune" style="width:270px">
+            Pune
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="location" id="Delhi" value="Delhi">
+          <label class="form-check-label" for="Delhi" style="width:270px">
+            Delhi
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="location" id="Mumbai" value="Mumbai">
+          <label class="form-check-label" for="Mumbai" style="width:270px">
+          Mumbai
+          </label>
+        </div>
+        <div class="form-check" style="width:270px">
+          <input class="form-check-input" type="radio" name="location" id="Jaipur" value="Jaipur">
+          <label class="form-check-label" for="Jaipur" style="width:270px">
+            Jaipur
+          </label>
+        </div>
+        </ul></div>
+        
+        <!------------------------------------------>
+        </form>
+        </ul>
+        </div>  
+        
+    <div class="col-sm-8">
+      <div class="main">
+        <div class="row" id="row">
+        
+        <!-----------------------------product1------------------------------------->
+        <% products.forEach(product => { %>
+          <div class="column BMR feed 1 harvest1">
+            <div class="content">
+              <a href="/products/<%= product._id %>"> <img src="/images/<%= product.imgurl %>.jpg" style="width:100%"  id="p1"></a>
+              <h4><center><%= product.name %></center></h4>
+              <p><center><%= product.vendorname %></center></p>
+            </div>
+          </div>
+        <% }) %>
+        </div>  <!--------div id == main ---------->
 
-</div><div class="col-sm-3"></div>
-</div>
-<p id="space"></p>
-<div class="row">
 
-
-
-<!------------------DROPDOWN FOR COMPANIES------------------------------------------------------------------->
-<div class="col-sm-4">
-<button type="button" class="btn btn-success btn-lg" id="comp">COMPANY</button>
- <ul class="list-group" id="comp_list">
-    <li class="list-group-item" onclick="filterSelection('BMR')" style="height:70px">BMR Industries Pvt.Ltd.</li>
-    <li class="list-group-item" onclick="filterSelection('Cargill')" style="height:70px">Cargill India Pvt. Ltd.</li>
-    <li class="list-group-item" onclick="filterSelection('Doctor')" style="height:70px">Doctor's Vet -Pharma Pvt.Ltd.</li>
-    <li class="list-group-item" onclick="filterSelection('Apple')" style="height:70px">APPLE Biotechnologies</li>
-    <li class="list-group-item" onclick="filterSelection('SRR')" style="height:70px">SRR AQUA SUPPLIERS</li>
-    <li class="list-group-item" onclick="filterSelection('Arun')" style="height:70px">ARUN AQUCULTURE</li>
-    <li class="list-group-item" onclick="filterSelection('Aquarium')" style="height:70px">MadOverFish Aquarium & Water Arts Pvt.ltd</li>
-   </ul>
-   <p id="space3"></p>
-</div>
-
-<!--------------------PRODUCTS----------------------------------------------------------------------------------------->
-<div class="col-sm-8">
-<div class="main">
-<div class="row" id="row">
-
-<!-----------------------------product1------------------------------------->
-<% products.forEach(product => { %>
-  <div class="column BMR feed 1 harvest1">
-    <div class="content">
-      <a href="/products/<%= product._id %>"> <img src="/images/<%= product.imgurl %>.jpg" style="width:100%"  id="p1"></a>
-      <h4><center><%= product.name %></center></h4>
-      <p><center><%= product.vendorname %></center></p>
     </div>
+  
   </div>
-<% }) %>
-
-
-
-</div>  <!--------div id == main ---------->
-</div>
-</div><!-----row-1st-------->
-<!------------------------------------------------------------------------------->
-</div><!----container--------->
-
-
-<!-----------------------pagination------------------------------------------------>
-<!-- <div class="row">
-  <div class="col-sm-6"></div>
-  <div class="col-sm-6">
-  <center><ul class="pagination">
-    <li class="page-item"><a class="page-link"  onclick="filterSelection('1')" >1</a></li>
-    <li class="page-item"><a class="page-link"  onclick="filterSelection('2')" >2</a></li>
-    <li class="page-item"><a class="page-link"  onclick="filterSelection('3')" >3</a></li>
-    <li class="page-item disabled"><a class="page-link"  onclick="filterSelection('4')" >4</a></li>
-    <li class="page-item disabled"><a class="page-link"  onclick="filterSelection('5')" >5</a></li>
-  </ul></center></div>
-</div><hr> -->
-<!-------------------------------------------------------------------------------------->
-
-
-<!-----------------------------About us ------------------------------------------------->
-
-<div class="row" id="aboutus" style="background-image: url('/images/b2.jpeg')">
-  <div class="col-sm-1">
-  </div>
-  <div class="col-sm-10">
- <center><div id="heading"><b>ABOUT US</b></div></center>
-    <center><div id="heading" style="font-size: 30px"><b>OUR VISSION</b></div>
-   <b> "Enhancing human capability and ensuring wellbeing through knowledge transfer, empowerment and collective process."</b>
-    <div id="heading" style="font-size: 30px"><b>OUR AIM</b></div>
-    <b>"Reduce vulnerability, build resilience and empower the community through strengthening aquatic-based livelihood opportunities."</b>
-   <div id="heading" style="font-size: 25px"><b> WHO ARE WE?</b></div></center>
-   <div class="row">
-    <div class="col-sm-6">
-   <div id="about"> Centre for Aquatic livelihood Jaljeevika is a registered non-profit organisation under section (8) company act.
-    We started our journey in the year 2013 to promote livelihood potential in rural India through interventions in aquatic livelihood sector.
-    We are committed to the promotion of aquatic livelihood through better resource management, institution building, technology transfer, access to credit, inputs, markets and support in developing end to end value chains towards enhancing livelihood opportunities, securing food and nutritional security in rural India.<br><br>
-   <i class="far fa-calendar-check"></i>&nbsp &nbsp One of the founder members to establish a National platform for small scale &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  fish worker.<br>
-   <i class="far fa-calendar-check" ></i>&nbsp &nbsp Transforming as Open source fisheries platform to promote numbers of social &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  enterprises around the fisheries value chain.<br>
-   <i class="far fa-calendar-check"></i>&nbsp &nbsp  IT-based support services to ensure link better performing fish farmers &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp through credit agency</i><br>
-   <i class="far fa-calendar-check"></i>&nbsp &nbsp Enable farmers to learn affordable and sustainable aquatic farming practices.<br><br>
-   <i class="far fa-calendar-check"></i>&nbsp &nbsp  Setting up sectoral development AquaFund to leverage the existing potential &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp of CSR,Private sector,etc.</div></div>
-   <div class="col-sm-6"><p id="space2"></p><img src="/images/jaljeevak.jpg" style="height:300px;width:600px"></div>
-   </div>
-
-  </div>
-  <div class="col-sm-1">
-  </div>
-</div><!------------ROW--------------->
-
-<!-------------------------------------------------------------------------------------------->
-
-<!-------------------------------------------------------------------------------------------->
-
-<!------------------------------------------------------------------------------------------>
-<script>
+  <script>
     
     $(document).ready(function(){
         $("#comp").click(function(){
@@ -294,8 +352,34 @@
         element.className = arr1.join(" ");
     }
     //until here
-
+    $(document).ready(function(){
+  $("#compan").click(function(){
+    $("#compan_list").slideToggle("fast");
+  });
+});
+$(document).ready(function(){
+  $("#loc").click(function(){
+    $("#location_list").slideToggle("fast");
+  });
+});
+$(document).ready(function(){
+  $("#filter").click(function(){
+    $("#filt_list").slideToggle("fast");
+  });
+});
+$(document).ready(function(){
+  $("#cat").click(function(){
+    $("#cat_list").slideToggle("fast");
+  });
+});
+$(document).ready(function(){
+  $("#pri").click(function(){
+    $("#pri_list").slideToggle("fast");
+  });
+});
    
 </script>
+
+
 </body>
 </html>
