@@ -28,13 +28,13 @@ router.route('/admindashboard').get(isAdmin,(req, res) => {
 });
 
 // Vendor Dashboard
-router.get('/vendordashboard',isVendor, (req, res) => res.render('Vendordashboard'));
+router.get('/vendordashboard', isVendor, (req, res) => res.render('Vendordashboard'));
 
 // Services
-router.get('/services',isUser, (req, res) => res.render('services'));
+router.get('/services', isUser, (req, res) => res.render('services'));
 
 // About Us
-router.get('/aboutus',isUser, (req, res) => res.render('aboutus'));
+router.get('/aboutus', isUser, (req, res) => res.render('aboutus'));
 
 // Contact us
 router.get('/contactus',isUser, (req, res) => res.render('contactus'));

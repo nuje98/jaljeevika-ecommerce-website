@@ -17,4 +17,7 @@ router.post('/register', authController.postSignup);
 //logout routes
 router.get('/logout', isAdmin, authController.logout);
 
+//authorize product route
+router.post('/update/:id', isAdmin, authController.postAuthorize);
+
 module.exports = router;

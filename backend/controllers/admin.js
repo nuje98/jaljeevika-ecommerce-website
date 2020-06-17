@@ -1,4 +1,5 @@
 const Admin = require('../models/admin');
+let Product = require('../models/product.model');
 const bcrypt = require('bcryptjs');
 
 exports.getHome = (req, res, next) => {
@@ -138,6 +139,17 @@ exports.postLogin = (req, res, next) => {
 			.catch(err => console.log(err));
 };
 
+exports.postAuthorize = (req, res, next) => {
+	Product.findById(req.params.id)
+        .then(product => {
+            product.isAuthorised = true;
+            product.save()
+                .then(() => res.json('Product updated!'))
+                .catch(err => res.status(400).json('Error: '+ err));
+        })
+        .catch(err => res.status(400).json('Error: '+ err));
+    //Product.update( { _id: req.params.id },{ $set: {"isAuthorized": true}});
+};
 
 exports.logout = (req, res, next) => {
 	req.flash('success','Logged out successfully');
