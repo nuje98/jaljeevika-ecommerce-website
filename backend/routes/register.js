@@ -7,7 +7,7 @@ router.route('/').get((req, res) => {
 
 });
 
-// locolhost:5000/products/add
+
 router.route('/register').post((req, res) => {
     const Name = req.body.name;
     const vendorname = req.body.vendorname

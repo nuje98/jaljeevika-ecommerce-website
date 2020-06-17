@@ -60,6 +60,7 @@ app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
 app.use('/products', require('./routes/products'));
 app.use('/vendor', require('./routes/vendor'));
+app.use('/admin', require('./routes/admin'));
 
 const PORT = process.env.PORT || 5000;
 
