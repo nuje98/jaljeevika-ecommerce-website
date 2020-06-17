@@ -12,7 +12,8 @@ exports.getSignup = (req, res, next) => {
 	res.render('userreg',{
 		title: ' User Register',
 		isLoggedIn : req.session.isLoggedIn || false, 
-		path: '/users/register'
+        path: '/users/register',
+        user: req.user,
 	});
 };
 
@@ -20,87 +21,93 @@ exports.getLogin = (req, res, next) => {
 	res.render('userlogin',{
 		title: ' User Login', 
 		isLoggedIn : req.session.isLoggedIn || false, 
-		path: '/users/login'
+        path: '/users/login',
+        user: req.user,
+        errorMessage: req.flash('error'),
+        successMessage: req.flash('success'),
 	});
 };
 
-exports.postSignup = (req, res, next) => {
-	const { name, email, password, password2 } = req.body;
+ exports.postSignup = (req, res, next) => {
+ 	const { name, email, password, password2 } = req.body;
     let errors = [];
+    //Validations
 
-    // Validations
+     // Check required fields
+     if(!name || !email || !password || !password2){
+         errors.push({ msg: 'Please fill in all the required fields'});
+     }
 
-    // Check required fields
-    if(!name || !email || !password || !password2){
-        errors.push({ msg: 'Please fill in all the required fields'});
+     // Check passwords match
+      if(password !== password2){
+         errors.push({ msg: 'Passwords do not match'});
+     }
+
+     // Check password length
+     if(password.length < 6){
+         errors.push({ msg: 'Password should be at least 6 characters long'});
     }
 
-    // Check passwords match
-    if(password !== password2){
-        errors.push({ msg: 'Passwords do not match'});
-    }
-
-    // Check password length
-    if(password.length < 6){
-        errors.push({ msg: 'Password should be at least 6 characters long'});
-    }
-
-    if(errors.length >0)
-    {
-        res.render('userreg', {
-            errors,
-            name,
-            email,
-            password,
-            password2
+     if(errors.length >0)
+     {
+         res.render('userreg', {
+             errors,
+             name,
+             email,
+             password,
+             password2
         });
-    }
-    else
-    {
-        // Validation passed
-        User.findOne({ email: email})
-            .then(user => {
-                if(user) 
-                {
-                    // User exists
-                    errors.push({ msg: 'Email is already registered'});
-                    res.render('userreg', {
-                        errors,
-                        name,
-                        email,
-                        password,
-                        password2
-                    });
-                } 
-                else 
-                {
+     }
+     else
+     {
+         // Validation passed
+         User.findOne({ email: email})
+             .then(user => {
+                 if(user) 
+                 {
+                     // User exists
+                     errors.push({ msg: 'Email is already registered'});
+                     res.render('userreg', {
+                         errors,
+                         name,
+                         email,
+                         password,
+                         password2
+                     });
+                 } 
+                 else 
+                 {
                     const newUser = new User({
-                        name,
-                        email,
-                        password
-                    });
+                         name,
+                         email,
+                         password
+                     });
                     
-                    // Hash Password
-                    bcrypt.genSalt(10, (err, salt) => {
-                        bcrypt.hash(newUser.password, salt, (err, hash) => {
-                          if (err) throw err;
-                          newUser.password = hash;
-                          newUser
-                            .save()
-                            .then(user => {
-                              req.flash(
-                                'success_msg',
-                                'You are now registered and can log in'
-                              );
+                     // Hash Password
+                   bcrypt.genSalt(10, (err, salt) => {
+                       bcrypt.hash(newUser.password, salt, (err, hash) => {
+                        if (err) throw err;
+                         newUser.password = hash;
+                         newUser
+                          .save()
+                         .then(() => {
+                                req.session.isLoggedIn = true;
+							    req.session.user = user;
+							    req.session.save();
+							    console.log(req.session);
+                                req.flash(
+                                    'success_msg',
+                                  'You are now registered and can log in'
+                                );
                               res.redirect('/users/login');
-                            })
-                            .catch(err => console.log(err));
-                        });
+                             })
+                           .catch(err => console.log(err));
+                      });
                     });
-                }
-            });
-    }
-};
+                 }
+             });
+     }
+ };
 
 exports.postLogin = (req, res, next) => {
 	const email = req.body.email;
@@ -140,9 +147,8 @@ exports.postLogin = (req, res, next) => {
 
 
 exports.logout = (req, res, next) => {
-	req.flash('success','Logged out successfully');
 	req.session.destroy(err => {
-		console.log(err);
+        console.log(err);
 		return res.redirect('/users/login');
-	});
+    });
 }

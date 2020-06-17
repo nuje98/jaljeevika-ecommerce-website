@@ -13,11 +13,10 @@
     <link rel="stylesheet" href="/vendorreg.css">
 </head>
 <body>
-    <%- include ("./partials/messages") %>
     <div class="main">
         <div class="container">
             <form method="POST" action="/users/register" class="appointment-form" id="appointment-form">
-                <h2>Jaljeevika Vendor Registration</h2>
+                <h2>Jaljeevika User Registration</h2>
                 <div class="form-group-1">
                     <input type="text" name="name" id="name" placeholder="Name" required />
                     <input type="email" name="email" id="email" placeholder="Email" required />
@@ -32,6 +31,7 @@
                     </div>
                  </div> 
                  <p style="color: black; font-size:15px; ">Have An Account? <a href="/users/login" style="color:blue;">Login Here</a></p>  
+                 <%- include ("./partials/messages") %>
             </form>
         </div>
     </div>

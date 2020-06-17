@@ -1,6 +1,6 @@
 module.exports = (req, res, next) => {
     if(!req.session.isLoggedIn){
-      req.flash('error', 'You must login first!')
+      req.flash('error_msg', 'Please log in to view that resource');
       return res.redirect('/vendor/login');
     }
     next();

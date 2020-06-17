@@ -1,6 +1,7 @@
 module.exports = (req, res, next) => {
     if(!req.session.isLoggedIn){
-      req.flash('error', 'You must login first!')
+      console.log("Login first")
+      req.flash('error_msg', 'Please log in to view that resource');
       return res.redirect('/admin/login');
     }
     next();

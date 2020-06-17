@@ -30,7 +30,8 @@ exports.getSignup = (req, res, next) => {
 	res.render('vendorreg2',{
 		title: ' Vendor Register',
 		isLoggedIn : req.session.isLoggedIn || false, 
-		path: '/vendor/register'
+        path: '/vendor/register',
+        user: req.user,
 	});
 };
 
@@ -38,7 +39,8 @@ exports.getLogin = (req, res, next) => {
 	res.render('vendorlogin',{
 		title: ' Vendor Login', 
 		isLoggedIn : req.session.isLoggedIn || false, 
-		path: '/vendor/login'
+        path: '/vendor/login',
+        user: req.user,
 	});
 };
 
@@ -106,8 +108,8 @@ exports.postSignup = (req, res, next) => {
     {   
         // Validation passed
         Vendor.findOne({ email: email})
-            .then(vendor => {
-                if(vendor)
+            .then(user => {
+                if(user)
                 {
                     // Vendor exists
                     errors.push({ msg: 'Email is already registered'});
@@ -156,11 +158,15 @@ exports.postSignup = (req, res, next) => {
                           newvendor.password = hash;
                           newvendor
                             .save()
-                            .then(user => {
-                              req.flash(
-                                'success_msg',
-                                'You are now registered and can log in'
-                              );
+                            .then(() => {
+                                req.session.isLoggedIn = true;
+							    req.session.user = user;
+							    req.session.save();
+							    console.log(req.session);
+                                req.flash(
+                                    'success_msg',
+                                    'You are now registered and can log in'
+                                );
                               res.redirect('/vendor/login');
                             })
                             .catch(err => console.log(err));

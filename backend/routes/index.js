@@ -27,7 +27,8 @@ router.route('/dashboard').get(isUser,(req, res) => {
             products : data,
             brand : brand,
             cats : category,
-            location : location
+            location : location,
+            user: req.user
          });
         });
       });
@@ -45,7 +46,12 @@ router.route('/admindashboard').get(isAdmin,(req, res) => {
 });
 
 // Vendor Dashboard
-router.get('/vendordashboard', isVendor, (req, res) => res.render('Vendordashboard'));
+//router.get('/vendordashboard', isVendor, (req, res) => res.render('Vendordashboard', {user: req.user}));
+router.route('/vendordashboard').get(isVendor,(req, res) => { 
+    res.render('Vendordashboard', { 
+        user: req.user
+    });
+});
 
 // Services
 router.get('/services', isUser, (req, res) => res.render('services'));

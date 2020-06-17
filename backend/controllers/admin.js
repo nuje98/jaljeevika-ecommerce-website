@@ -13,7 +13,8 @@ exports.getSignup = (req, res, next) => {
 	res.render('adminreg',{
 		title: ' Admin Register',
 		isLoggedIn : req.session.isLoggedIn || false, 
-		path: '/admin/register'
+        path: '/admin/register',
+        user: req.user,
 	});
 };
 
@@ -21,7 +22,8 @@ exports.getLogin = (req, res, next) => {
 	res.render('adminlogin',{
 		title: ' Admin Login', 
 		isLoggedIn : req.session.isLoggedIn || false, 
-		path: '/admin/login'
+        path: '/admin/login',
+        user: req.user,
 	});
 };
 
@@ -60,8 +62,8 @@ exports.postSignup = (req, res, next) => {
     {
         // Validation passed
         Admin.findOne({ email: email})
-            .then(admin => {
-                if(admin) 
+            .then(user => {
+                if(user) 
                 {
                     // Admin exists
                     errors.push({ msg: 'Email is already registered'});
@@ -88,11 +90,15 @@ exports.postSignup = (req, res, next) => {
                           newAdmin.password = hash;
                           newAdmin
                             .save()
-                            .then(admin => {
-                              req.flash(
-                                'success_msg',
-                                'You are now registered and can log in'
-                              );
+                            .then(() => {
+                                req.session.isLoggedIn = true;
+							    req.session.user = user;
+							    req.session.save();
+							    console.log(req.session);
+                                req.flash(
+                                    'success_msg',
+                                    'You are now registered and can log in'
+                                );
                               res.redirect('/admin/login');
                             })
                             .catch(err => console.log(err));

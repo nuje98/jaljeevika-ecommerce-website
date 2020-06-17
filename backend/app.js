@@ -5,6 +5,9 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 const cors = require('cors');
+const User = require('./models/user.model');
+const Admin = require('./models/admin');
+const Vendor = require('./models/Vendor');
 
 const app = express();
 
@@ -33,8 +36,8 @@ app.use(express.urlencoded({ extended: false}));
 // Express Session
 app.use(session({
     secret: 'secret', 
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
 }));
 
 // Static content
@@ -46,6 +49,63 @@ app.use(passport.session());
 
 // Connect flash
 app.use(flash());
+
+// User
+app.use((req, res, next) => {
+    if(!req.session.user){
+      return next();
+    }
+    User.findById(req.session.user._id)
+      .then(user => {
+        req.user = user;
+        next();
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  });
+  app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    next();
+  });
+
+  // Admin
+  app.use((req, res, next) => {
+    if(!req.session.user){
+      return next();
+    }
+    Admin.findById(req.session.user._id)
+      .then(user => {
+        req.user = user;
+        next();
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  });
+  app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    next();
+  });
+
+  // Vendor
+  app.use((req, res, next) => {
+    if(!req.session.user){
+      return next();
+    }
+    Vendor.findById(req.session.user._id)
+      .then(user => {
+        req.user = user;
+        next();
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  });
+  app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    next();
+  });
 
 // Global Variables
 app.use((req, res, next) => {
