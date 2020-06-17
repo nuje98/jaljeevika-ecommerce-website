@@ -112,38 +112,24 @@
     
         <button type="button" class="btn btn-success" id="filter" style="width:300px">Filter</button>
         <ul class="list-group" id="filt_list" style="width:300px">
-        <form>
+        <form method="GET" action="/filter">
         Clear Filters<br>
         
         <!--------category-------------------->
         
         <button type="button" class="btn btn-success btn-sm" id="cat" style="width:270px">Category</button>
+        
         <div style="border-style:groove;width:270px">
         <ul class="list-group" id="cat_list"style="width:270px">	
+          <% cats.forEach(cat=>{ %>
            <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="category" id="Feed" value="Feed">
+          <input class="form-check-input" type="radio" name="category" id="Feed" value="<%=cat %>" >
           <label class="form-check-label" for="Feed" style="width:270px">
-            Feed
+            <%=cat%>
           </label>
         </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="category" id="HealthCare" value="HealthCare">
-          <label class="form-check-label" for="HealthCare" style="width:270px">
-            HealthCare
-          </label>
-        </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="category" id="Aquaculture Equipments" value="Aquaculture Equipments">
-          <label class="form-check-label" for="Aquaculture Equipments" style="width:270px">
-            Aquaculture Equipments
-          </label>
-        </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="category" id="Ornamental fish purpose Toolkit" value="Ornamental fish purpose Toolkit">
-          <label class="form-check-label" for="Ornamental fish purpose Toolkit" style="width:270px">
-            Ornamental fish purpose Toolkit
-          </label>
-        </div>
+        <%})%>
+        
         </ul></div>
         
         
@@ -152,49 +138,17 @@
         <button type="button" class="btn btn-success btn-sm" id="compan" style="width:270px">Company</button>
         <div style="border-style:groove;width:270px">
         <ul class="list-group" id="compan_list" style="width:270px">
+          <% for (const n in brand){ %>
         <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="company" id="BMR" value="BMR">
+          <input class="form-check-input" type="radio" name="brand" id="BMR" value="<%=brand[n]%>">
           <label class="form-check-label" for="BMR" style="width:270px">
-            BMR Industries Pvt.Ltd.
+            <%=brand[n]%>
           </label>
         </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="company" id="Cargill" value="Cargill">
-          <label class="form-check-label" for="Cargill" style="width:270px">
-            Cargill India Pvt. Ltd.
-          </label>
-        </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="company" id="Doctor" value="Doctor">
-          <label class="form-check-label" for="Doctor" style="width:270px">
-            Doctor's Vet -Pharma Pvt.Ltd.
-          </label>
-        </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="company" id="Apple" value="Apple">
-          <label class="form-check-label" for="Apple" style="width:270px">
-            APPLE Biotechnologies
-          </label>
-        </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="company" id="SRR" value="SRR">
-          <label class="form-check-label" for="SRR" style="width:270px">
-            SRR AQUA SUPPLIERS
-          </label>
-        </div>
-        <div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="company" id="Arun" value="Arun">
-          <label class="form-check-label" for="Arun" style="width:270px">
-            ARUN AQUCULTURE
-          </label>
-        </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="company" id="MadOverFish" value="MadOverFish">
-          <label class="form-check-label" for="MadOverFish" style="width:270px">
-            MadOverFish Aquarium & Water Arts Pvt.ltd
-          </label>
-        </div>
+        <%}%>
+           
+          
+        
         </ul></div>
         
         
@@ -204,29 +158,20 @@
         <div style="border-style:groove;width:270px">
         <ul class="list-group" id="pri_list" style="width:270px">	
            <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="price" id="less1000" value="less1000">
+          <input class="form-check-input" type="radio" name="price" id="less1000" value="low">
+          
           <label class="form-check-label" for="less1000" style="width:270px">
-            Less than 1000
+            Low To High
           </label>
         </div>
         <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="price" id="1000-2000" value="1000-2000">
+          <input class="form-check-input" type="radio" name="price" id="1000-2000" value="high">
           <label class="form-check-label" for="1000-2000" style="width:270px">
-           1000-2000
+           High To Low
           </label>
         </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="price" id="2000-2500" value="2000-2500">
-          <label class="form-check-label" for="2000-2500" style="width:270px">
-            2000-2500
-          </label>
-        </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="price" id="more2500" value="more2500">
-          <label class="form-check-label" for="more2500" style="width:270px">
-            More than 2500
-          </label>
-        </div>
+       
+        
         </ul></div>
         
         
@@ -236,30 +181,18 @@
         <button type="button" class="btn btn-success btn-sm" id="loc"style="width:270px">Location</button>
         <div style="border-style:groove;width:270px">
         <ul class="list-group" id="location_list" style="width:270px">
+        
+        <% for (const n in location){ %>
         <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="location" id="Pune" value="Pune">
-          <label class="form-check-label" for="Pune" style="width:270px">
-            Pune
-          </label>
-        </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="location" id="Delhi" value="Delhi">
-          <label class="form-check-label" for="Delhi" style="width:270px">
-            Delhi
-          </label>
-        </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="location" id="Mumbai" value="Mumbai">
-          <label class="form-check-label" for="Mumbai" style="width:270px">
-          Mumbai
-          </label>
-        </div>
-        <div class="form-check" style="width:270px">
-          <input class="form-check-input" type="radio" name="location" id="Jaipur" value="Jaipur">
+          <input class="form-check-input" type="radio" name="vendorlocation" id="Jaipur" value=<%=location[n]%>>
           <label class="form-check-label" for="Jaipur" style="width:270px">
-            Jaipur
+          <%=location[n]%>
           </label>
         </div>
+          <%}%>
+
+        
+        <input type="submit" name="" id="">
         </ul></div>
         
         <!------------------------------------------>
@@ -271,7 +204,7 @@
       <div class="main">
         <div class="row" id="row">
         
-        <!-----------------------------products------------------------------------->
+        <!-----------------------------product1------------------------------------->
         <% products.forEach(product => { %>
           <div class="column BMR feed 1 harvest1">
             <div class="content">

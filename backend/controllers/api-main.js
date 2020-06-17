@@ -2,7 +2,7 @@ const Product = require('../models/product.model');
 
 exports.searchProduct = (req, res, next) => {
   const text = req.query.text;
-  Product.find({name: {"$regex": new RegExp(text, "i")}})
+  Product.find({name: {"$regex": new RegExp(text, "i")}, isAuthorised: true})
     .limit(7)
     .then(results => {
       return res.json(results);
