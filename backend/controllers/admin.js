@@ -14,7 +14,6 @@ exports.getSignup = (req, res, next) => {
 		title: ' Admin Register',
 		isLoggedIn : req.session.isLoggedIn || false, 
         path: '/admin/register',
-        user: req.user,
 	});
 };
 
@@ -23,9 +22,30 @@ exports.getLogin = (req, res, next) => {
 		title: ' Admin Login', 
 		isLoggedIn : req.session.isLoggedIn || false, 
         path: '/admin/login',
-        user: req.user,
 	});
 };
+
+exports.postAuthorize = (req, res, next) => {
+	Product.findById(req.params.id)
+        .then(product => {
+            product.isAuthorised = true;
+            product.save()
+                .then(() => {
+                    console.log('Product authorized!')
+                    res.redirect('/admindashboard')
+                })
+                .catch(err => res.status(400).json('Error: '+ err));
+        })
+        .catch(err => res.status(400).json('Error: '+ err));
+};
+
+exports.logout = (req, res, next) => {
+	req.flash('success','Logged out successfully');
+	req.session.destroy(err => {
+		console.log(err);
+		return res.redirect('/admin/login');
+	});
+}
 
 exports.postSignup = (req, res, next) => {
 	const { name, email, password, password2 } = req.body;
@@ -144,23 +164,3 @@ exports.postLogin = (req, res, next) => {
 			})
 			.catch(err => console.log(err));
 };
-
-exports.postAuthorize = (req, res, next) => {
-	Product.findById(req.params.id)
-        .then(product => {
-            product.isAuthorised = true;
-            product.save()
-                .then(() => res.json('Product updated!'))
-                .catch(err => res.status(400).json('Error: '+ err));
-        })
-        .catch(err => res.status(400).json('Error: '+ err));
-    //Product.update( { _id: req.params.id },{ $set: {"isAuthorized": true}});
-};
-
-exports.logout = (req, res, next) => {
-	req.flash('success','Logged out successfully');
-	req.session.destroy(err => {
-		console.log(err);
-		return res.redirect('/admin/login');
-	});
-}

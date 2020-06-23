@@ -1,6 +1,9 @@
 const Vendor = require('../models/Vendor');
 const bcrypt = require('bcryptjs');
 let Product = require('../models/product.model');
+const Message = require('../models/messages');
+const router = require('../routes/chat');
+const { data } = require('jquery');
 
 exports.getHome = (req, res, next) => {
 	res.render('vendorhome',{
@@ -17,7 +20,7 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-    Product.find({vendorname: "APPLE Biotechnologies"}, function(err, data){
+    Product.find({vendorid: req.session.user._id}, function(err, data){
         res.render('productcard', { 
            products : data,
            title: 'My Products',
@@ -31,7 +34,6 @@ exports.getSignup = (req, res, next) => {
 		title: ' Vendor Register',
 		isLoggedIn : req.session.isLoggedIn || false, 
         path: '/vendor/register',
-        user: req.user,
 	});
 };
 
@@ -40,7 +42,6 @@ exports.getLogin = (req, res, next) => {
 		title: ' Vendor Login', 
 		isLoggedIn : req.session.isLoggedIn || false, 
         path: '/vendor/login',
-        user: req.user,
 	});
 };
 

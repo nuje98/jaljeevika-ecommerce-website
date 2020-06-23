@@ -55,6 +55,7 @@ const isUser = require('../middleware/is-user');
 // locolhost:5000/products/add
 router.route('/add').post((req, res) => {
     const name = req.body.name;
+    const vendorid = req.session.user._id;
     const description = req.body.description;
     const price = Number(req.body.price);
     const vendorname = req.body.vendorname;
@@ -66,6 +67,7 @@ router.route('/add').post((req, res) => {
 
     const newProduct = new Product({
         name,
+        vendorid,
         description,
         price,
         vendorname,
@@ -86,9 +88,8 @@ router.get('/:id', isUser, mainController.getProduct);
 
 // delete product
 router.route('/:id').delete((req, res) => {
-    
     Product.findByIdAndDelete(req.params.id)
-        .then(() => res.json('Product deleted.'))
+        .then(() => console.log('Product deleted.'))
         .catch(err => res.status(400).json('Error: '+ err));
 });
 
@@ -111,6 +112,7 @@ router.route('/update/:id').post((req, res) => {
         })
         .catch(err => res.status(400).json('Error: '+ err));
 });
+
 // get request for editing product
 router.route('/update/:id').get((req, res) => {
     Product.findById(req.params.id, (err, product)=>{

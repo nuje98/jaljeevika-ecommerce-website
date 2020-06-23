@@ -64,8 +64,8 @@
         <p> <%= product.price %> </p>
         <p> <%= product.category %> </p>
         <p> <%= product.vendorlocation %> </p>
-        <a href="#"><button class="delete-product" data-id="<%= product._id %>">Delete</button></a>
-        <a href="#"><button class="authorize-product" data-id="<%= product._id %>">Authorize</button></a>
+        <button class="delete-product" data-id="<%= product._id %>">Delete</button>
+        <button class="authorize-product" data-id="<%= product._id %>">Authorize</button>
       </div>
     </div>
   </div>
@@ -99,7 +99,7 @@
             type: 'POST',
             url: '/admin/update/'+id,
             success: function(response){
-              alert('Product Authorized');
+              alert('Product Authorised');
               window.location.href='/admindashboard';
             },
             error: function(err){

@@ -13,7 +13,6 @@ exports.getSignup = (req, res, next) => {
 		title: ' User Register',
 		isLoggedIn : req.session.isLoggedIn || false, 
         path: '/users/register',
-        user: req.user,
 	});
 };
 
@@ -22,9 +21,6 @@ exports.getLogin = (req, res, next) => {
 		title: ' User Login', 
 		isLoggedIn : req.session.isLoggedIn || false, 
         path: '/users/login',
-        user: req.user,
-        errorMessage: req.flash('error'),
-        successMessage: req.flash('success'),
 	});
 };
 

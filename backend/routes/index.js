@@ -23,12 +23,12 @@ router.route('/dashboard').get(isUser,(req, res) => {
       Product.find().distinct('brand', function(error, brand) {
         Product.find().distinct('vendorlocation', function(error, location) {
          
-          res.render('dashboard', { 
+          res.render('dashboard', {
             products : data,
             brand : brand,
             cats : category,
             location : location,
-            user: req.user
+            feature : data.slice(0,7),
          });
         });
       });
@@ -46,12 +46,7 @@ router.route('/admindashboard').get(isAdmin,(req, res) => {
 });
 
 // Vendor Dashboard
-//router.get('/vendordashboard', isVendor, (req, res) => res.render('Vendordashboard', {user: req.user}));
-router.route('/vendordashboard').get(isVendor,(req, res) => { 
-    res.render('Vendordashboard', { 
-        user: req.user
-    });
-});
+router.get('/vendordashboard',isVendor, (req, res) => res.render('Vendordashboard'));
 
 // Services
 router.get('/services', isUser, (req, res) => res.render('services'));
@@ -60,7 +55,10 @@ router.get('/services', isUser, (req, res) => res.render('services'));
 router.get('/aboutus', isUser, (req, res) => res.render('aboutus'));
 
 // Contact us
-router.get('/contactus',isUser, (req, res) => res.render('contactus'));
+router.get('/contactus', isUser, (req, res) => res.render('contactus'));
+
+// Meet the teem,
+router.get('/team', isUser, (req, res) => res.render('team'));
 
 // Api main
 router.use('/api/main', apiMain);

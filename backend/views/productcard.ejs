@@ -64,7 +64,7 @@
         <p> <%= product.price %> </p>
         <p> <%= product.category %> </p>
         <p> <%= product.vendorlocation %> </p>
-        <a href="#"><button class="delete-product" data-id="<%= product._id %>">Delete</button></a>
+        <button class="delete-product" data-id="<%= product._id %>">Delete</button>
         <a href="/products/update/<%= product._id %>"><button>Update</button></a>
       </div>
     </div>
@@ -80,8 +80,9 @@
         type: 'DELETE',
         url: '/products/'+id,
         success: function(response){
+          location.reload();
           alert('Product Deleted');
-          window.location.href='/vendor/myProducts';
+          //window.location.href='/vendor/myProducts';
         },
         error: function(err){
           console.log(err);

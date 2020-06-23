@@ -13,6 +13,9 @@ const EnquerySchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  seen:{
+    type: Boolean,
+  },
   
   date: {
     type: Date,

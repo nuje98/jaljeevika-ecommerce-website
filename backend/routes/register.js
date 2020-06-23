@@ -3,8 +3,7 @@ let Product = require('../models/Vendorreg.model');
 
 // locolhost:5000/products/
 router.route('/').get((req, res) => { 
-    
-
+    res.send("<h1>Empty Route</h1>");
 });
 
 

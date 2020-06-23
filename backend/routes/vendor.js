@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/vendor');
 const isVendor = require('../middleware/is-vendor');
+const Message = require('../models/messages');
 
 //Vendor home route
 router.get('/', authController.getHome);
@@ -27,5 +28,13 @@ router.post('/contact', authController.postContact);
 //product routes
 router.get('/addProduct', authController.getAddProduct);
 router.get('/myProducts', authController.getProducts);
+
+// Mesages
+router.get('/getunseen',(req, res)=>{
+    Message.find({seen :0, receiver : req.session.user._id},(err, data)=>{
+        console.log(data.length)
+        res.status(200).send(data.length.toString())
+     });
+});
 
 module.exports = router;
