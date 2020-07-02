@@ -16,10 +16,11 @@ router.get('/:receiver',(req, res, next)=>{
             const message = req.body.msg;
             }
         console.log(receiver)
-
     }
 })
 */
+
+
 
 var receivername;
 
@@ -38,130 +39,224 @@ var receivername;
 
 //console.log(getvendorname("5edde91d9d392718b4d727b7").then((data)=>{console.log(data)}))
 
+
+
 router.get('/',(req,res,next)=>{
+  var user_id = req.session.user._id;
+  console.log(user_id)
 
     Message.find({sender : req.session.user._id}).distinct('receiver',(err, data)=>{
         Message.find({seen:0, receiver: req.session.user._id},(err, unseen)=>{
-            console.log(unseen)
-
+         
         res.render('a',{
             people : data,
-            count : unseen
+            count : unseen,
+            userid : user_id,
+
+
         })
+        
     })
     })
     
 })
-var id ="5ee3aa5afa154e2298ab7a04"
-
 
 
 router.get('/chatusers',(req,res,next)=>{
-    id = req.session.user._id
-    Message.aggregate([
-        { $match: { $or: [
-            {sender: id},
-            {receiver: id }
-        ]    } },
-        { $sort: { date: -1 } },
-        { $group: { '_id': {"receiver":"$receiver","sender":'$sender'},"message":{$first:"$message"} }},
-        
-      ]).then((data)=>{
-        var out="";
-        data.forEach(msg=>{
-            
-            if(msg._id.sender==id){
-              out = out+"<li><a href='/chat?q="+msg._id.receiver+"'"+"><img src='#' alt='user'><div><h2>User</h2><h3>You: "+msg.message+"</h3></div></a></li>"
-            }
-            else {
-              out = out+"<li><a href='/chat?q="+msg._id.sender+"'"+"><img src='#' alt='user'><div><h2>User</h2><h3>User: "+msg.message+"</h3></div></a></li>"
-         
-    
-            }
-            
-        })
-    console.log(out)
-            res.send(out)
-      })
-})
-router.get('/id',(req, res, next)=>{
-    let errors = []
-    if(req.query.q){
+  USER_ID = req.session.user._id
+  var paramid =""
+  if(req.query.q){
+    paramid= req.query.q
 
-        
-        var receiver = req.query.q;
-        var sender = req.session.user._id;
-        
-        //var sender = "5ede707f04269403e4848520"
-    $query =[receiver, sender]
-   var receivername
-    //getvendorname(receiver).then((data)=>{
-     //   receivername = data[0].name
-    //})
-    $query =[receiver, sender]
-    setTimeout(() => {
-        
-    
-    Message.find({sender : { $in: $query }, receiver: { $in: $query }}).sort({date :1}).exec( (err,data)=>{
-            
-            var i;
-            var out = "";
-            console.log("working")
-        
-        //console.log(data)
-        
-        
-        data.forEach(elem => {
-            var date = new Date(elem.date)
-                displaydate = date.getDay() + "/" + date.getMonth() 
-                + "/" + date.getFullYear() + " @ " 
-                + date.getHours() + ":" 
-                + date.getMinutes() + ":" + date.getSeconds();
-            
-              
-            if (elem.sender == sender){
-                
-                classname = "me"
-                //sendername = req.session.user.name;
-                sendername = "You"
-                
-                out = out + "<li class="+classname+"  >"+"<div class='entete'><h2>"+ sendername +"</h2><h3>"+displaydate+"</h3></div><div class='triangle'></div><div class='message'>"+ elem.message+"</div></li>"
-				
-            }
-            else {
-                classname = "you"
-                sendername = 'User'
-                out = out + "<li class="+classname+"  >"+"<div class='entete'><h2>"+ sendername +"</h2><h3>"+displaydate+"</h3></div><div class='triangle'></div><div class='message'>"+ elem.message+"</div></li>"
-            }
-                 
-            })
-            
-          
-            res.send(out)
-            
-              
-            })
-        }, 3000);
-
-        updateunseen(sender, receiver)
-    }
-
-   
-})
-function updateunseen(sender, receiver)
-{let conditions = {seen:0, receiver: sender, sender: receiver};
-let options = { multi: true};
-let update = {
-    $set : {
-        seen: 1,
   }
-};
-Message.updateMany(conditions , update,options,(err, data)=>{
-    //console.log(data)
-} );
-Message.find({seen:0, receiver: sender},(err, data)=>{
-    //console.log(data)
+  
+    Message.aggregate([
+        {
+          $match: {
+            $and: [
+              {
+                $or: [
+                  {
+                    receiver: USER_ID
+                  },
+                  {
+                    sender: USER_ID
+                  }
+                ],
+                
+              },
+              
+            ]
+          }
+        },{
+          $sort: {
+            'date': -1
+          }
+        },
+        
+        
+        {
+          $addFields: {
+            conversationWith: {
+              $cond: {
+                if: {
+                  $eq: [
+                    "$sender",
+                    USER_ID
+                  ]
+                },
+                then: "$receiver",
+                else: "$sender"
+              }
+            }
+          }
+        },
+        
+        
+        {
+          $group: {
+            _id: "$conversationWith",
+            message: {
+              $first: "$$ROOT"
+            }
+          }
+        },
+         {
+          $sort: {
+            'message.date': -1
+          }
+        }  ],(err, result)=>{
+         
+          var userslist =""
+
+        result.forEach(msg=>{
+            
+          if(msg._id!='null'){
+            var current=""
+            var unseentag=""
+            var online="Offline"
+            var who="user"
+            var statuscolor="red"
+               if(msg.message.receiver == USER_ID){
+            if(msg.message.seen == 0){
+              current= "id='unseen'"
+              unseentag = "<span id='unseentag'>New</span>"
+            }
+          }
+          
+              if(msg._id== paramid){
+                
+                  current = "id='currentchat'"
+                  
+                }
+              if(msg.message.sender== USER_ID){
+                who = "you"
+              }
+            //console.log(active.users)
+            
+            userslist = userslist + "<a  href='/chat?q="+msg._id+"'><li "+current+" ><div><h2>User</h2><h3><span style='margin-right:7px'>"+who+":"+"</span>"+msg.message.message+"</h3>"+unseentag+"</div></li></a>"
+             
+          }
+
+
+
+
+        })
+        res.send(userslist)
+        
+      })
+      
+
+
 })
+
+
+    // docs will now be an array containing 1 Message model
+
+    
+   
+
+
+
+
+
+
+router.get('/id',(req, res, next)=>{
+      let errors = []
+      if(req.query.q){
+  
+          
+          var paramid = req.query.q;
+          var USER_ID = req.session.user._id;
+          
+          //var sender = "5ede707f04269403e4848520"
+    
+     var receivername
+      //getvendorname(receiver).then((data)=>{
+       //   receivername = data[0].name
+      //})
+      
+      setTimeout(() => {
+          
+        Message.find({$or:[{sender : USER_ID , receiver: paramid}, {receiver: USER_ID, sender: paramid}]}).sort({date :1}).exec( (err,data)=>{
+          
+              var i;
+              var out = "";
+              console.log("working")
+          
+          //console.log(data)
+          
+          
+          data.forEach(elem => {
+              var date = new Date(elem.date)
+                  displaydate = date.getDay() + "/" + date.getMonth() 
+                  + "/" + date.getFullYear() + " @ " 
+                  + date.getHours() + ":" 
+                  + date.getMinutes() + ":" + date.getSeconds();
+              
+                
+              if (elem.sender == USER_ID){
+                  
+                  classname = "me"
+                  //sendername = req.session.user.name;
+                  sendername = "You"
+                  
+                  out = out + "<li class="+classname+"  >"+"<div class='entete'><h2>"+ sendername +"</h2><h3>"+displaydate+"</h3></div><div class='triangle'></div><div class='message'>"+ elem.message+"</div></li>"
+          
+              }
+              else {
+                  classname = "you"
+                  sendername = 'User'
+                  out = out + "<li class="+classname+"  >"+"<div class='entete'><h2>"+ sendername +"</h2><h3>"+displaydate+"</h3></div><div class='triangle'></div><div class='message'>"+ elem.message+"</div></li>"
+              }
+                   
+              })
+              
+            
+              res.send(out)
+              
+                
+              })
+          }, 3000);
+  
+         updateunseen(USER_ID, paramid)
+      }
+  
+     
+  })
+function updateunseen(USER_ID, paramid)
+{
+        let conditions = {seen:0, receiver: USER_ID, sender: paramid};
+      let options = { multi: true};
+      let update = {
+          $set : {
+              seen: 1,
+        }
+      };
+      Message.updateMany(conditions , update,options,(err, data)=>{
+          //console.log(data)
+      } );
+      
 
 }
 
@@ -205,49 +300,11 @@ router.post('/send', (req, res, next)=>{
         receiver,
         message
                 })
+    console.log(newmessage)
     console.log("done")
-    
+    console.log(sender, receiver)
     newmessage.save()
-    $query =[receiver, sender]
-   
-    $query =[receiver, sender]
-    Message.find({sender : { $in: $query }, receiver: { $in: $query }}).sort({date :1}).exec( (err,data)=>{
-            
-            var i;
-            var out = "";
-            console.log("working")
-        
-        //console.log(data)
-        
-            
-        data.forEach(elem => {
-            var date = new Date(elem.date)
-                displaydate = date.getDay() + "/" + date.getMonth() 
-                + "/" + date.getFullYear()
-                + date.getHours() + ":" 
-                + date.getMinutes() + ":" + date.getSeconds();
-            if (elem.sender == sender){
-                
-                classname = "me"
-                //sendername = req.session.user.name;
-                sendername = "You"
-                out = out + "<li class="+classname+"  >"+"<div class='entete'><h2>"+ sendername +"</h2><h3>"+displaydate+"</h3></div><div class='triangle'></div><div class='message'>"+ elem.message+"</div></li>"
-				
-            }
-            else {
-                classname = "you"
-                sendername = 'User'
-                out = out + "<li class="+classname+"  >"+"<div class='entete'><h2>"+ sendername +"</h2><h3>"+displaydate+"</h3></div><div class='triangle'></div><div class='message'>"+ elem.message+"</div></li>"
-            }
-               
-                
-            })
-
-          
-          res.send(out)
-          
-          
-        })
+    
         }
     }
 

@@ -9,6 +9,7 @@ const User = require('./models/user.model');
 const Admin = require('./models/admin');
 const Vendor = require('./models/Vendor');
 
+
 const app = express();
 
 // cors middleware
@@ -121,6 +122,7 @@ app.use('/users', require('./routes/users'));
 app.use('/products', require('./routes/products'));
 app.use('/vendor', require('./routes/vendor'));
 app.use('/admin', require('./routes/admin'));
+app.use('/chat', require('./routes/chat'));
 
 const PORT = process.env.PORT || 5000;
 

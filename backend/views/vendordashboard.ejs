@@ -7,7 +7,28 @@
     <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
     <link href="default.css" rel="stylesheet" type="text/css" media="all" />
     <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
-    
+    <style>
+      li {
+        position: relative;
+      }
+      .count{
+        position: absolute;
+        font-size: 20px;
+        color: white;
+        top:0;
+        right: 0;
+             }
+      h4{
+        
+        background-color: red;
+        line-height: 15px;
+        font-size: 15px;
+        color: white;
+        border-radius: 10px 10px;
+        border: 1px solid red;
+   
+      }
+    </style>
     </head>
     <body>
     <div id="header-wrapper">
@@ -22,7 +43,12 @@
             <li><a href="/vendor/addProduct" accesskey="2" title="">SELL</a></li>
             <li><a href="/vendor/myProducts" accesskey="2" title="">MyProducts</a></li>
             <li><a href="/vendor/contact" accesskey="3" title="">Contact Us</a></li>
-            <li><a href="/vendor/logout" accesskey="3" title="">Logout</a></li>
+            <li class="message"><a  href="/chat" accesskey="3" title="">Messages
+           
+              <span  class="count"><h4 id="count">0</h4></span>
+              
+                 </a></li>
+                 <li><a href="/vendor/logout" accesskey="3" title="">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -79,3 +105,21 @@
     </body>
     </html>
     
+    <script>
+      function getseen(){
+         $.ajax({
+           url: '/vendor/getunseen',
+           type: 'GET',
+           success: function(data){
+                     console.log(data)
+             $('#count').html(data)
+           }
+         });
+       }
+       setInterval(() => {
+         getseen()
+     }, 2000);
+ 
+ 
+ 
+     </script>
