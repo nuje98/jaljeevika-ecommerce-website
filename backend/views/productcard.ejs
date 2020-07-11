@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Products</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
   body {
@@ -50,27 +51,27 @@
 </style>
 </head>
 <body>
-<% products.forEach(product => { %>
-
-  <h1><%= product.name %></h1>
-  <h3><%= product.vendorname %></h3>
-  <div class="flip-card">
-    <div class="flip-card-inner">
-      <div class="flip-card-front">
-        <img src="/images/<%= product.imgurl %>.jpg" alt="Product" style="width:300px;height:300px;">
-      </div>
-      <div class="flip-card-back">
-        <p><%= product.description %></p>
-        <p> <%= product.price %> </p>
-        <p> <%= product.category %> </p>
-        <p> <%= product.vendorlocation %> </p>
-        <button class="delete-product" data-id="<%= product._id %>">Delete</button>
-        <a href="/products/update/<%= product._id %>"><button>Update</button></a>
+    <% products.forEach(product => { %>
+  
+    <h1><%= product.name %></h1>
+    <h3><%= product.vendorname %></h3>
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="<%= product.imgurl %>" alt="Product" style="width:300px;height:300px;">
+        </div>
+        <div class="flip-card-back">
+          <p><%= product.description %></p>
+          <p> <%= product.price %> </p>
+          <p> <%= product.category %> </p>
+          <p> <%= product.vendorlocation %> </p>
+          <button class="delete-product" data-id="<%= product._id %>">Delete</button>
+          <a href="/products/update/<%= product._id %>"><button>Update</button></a>
+        </div>
       </div>
     </div>
-  </div>
-
-<% }) %>
+  
+  <% }) %>
 <script>
   $(document).ready(function(){
     $('.delete-product').on('click', function(e){

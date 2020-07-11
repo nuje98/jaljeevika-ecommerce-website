@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Jaljeevika</title>
+  <title>Aqua-Mart</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -202,9 +202,25 @@
         .footer-distributed .footer-center i{
           margin-left: 0;
         }
- 
- 
-        }
+      }
+      .count{
+        position: absolute;
+        font-size: 20px;
+        color: white;
+        top:0px;
+        left:80px;
+        width: 15px;
+             }
+      .count h4{
+        
+        background-color: red;
+        line-height: 15px;
+        font-size: 19px;
+        color: white;
+        border-radius: 10px 10px;
+        border: 1px solid red;
+   
+      }
   </style>
 </head>
 <body onload="filterSelection('1')" style="font-family:candara">
@@ -246,6 +262,7 @@
       <a href="/aboutus"><button type="button" class="btn btn-default" id="about" style="font-size: 20px;"><b>ABOUT US</b></button></a>
       <a href="/services"><button type="button" class="btn btn-default" id="services" style="font-size: 20px;"><b>SERVICES</b></button></a>
       <a href="/contactus"><button type="button" class="btn btn-default" id="contact" style="font-size: 20px;"><b>CONTACT US</b></button></a>
+      <a style="position: relative;" href="/chat"><button type="button" class="btn btn-default" id="services" style="font-size: 20px;"><b>MESSAGES <!--<span  class="count"><h4 id="count">0</h4></span>--></b></button></a>
       <a href="/team"><button type="button" class="btn btn-default" id="meet" style="font-size: 20px;"><b>MEET THE TEAM</b></button></a>
     </div>
       <div class="col-sm-2">
@@ -473,12 +490,13 @@
       </div>
   </div>
   <br>
+  <!-- Products -->
     <div class="products">
       <div class="row">
         <% products.forEach(product => { %>
           <div class="card--featured col-lg-3 col-sm-6 d-flex justify-content-center mt-4" onclick="javascript:location.href= '/products/<%= product._id %>'">
             <div class="card shadow" style="width: 18rem;" onmouseover="hovered(this)" onmouseout="removed(this)">
-              <img src="/images/<%= product.imgurl %>.jpg" style="width:100%"  id="p1">
+              <img src="<%= product.imgurl %>" style="width:100%"  id="p1">
               <h4><center><%= product.name %></center></h4>
               <center><%= product.vendorname %></center>
             </div>
@@ -704,5 +722,20 @@ anime.timeline({loop: true})
           },
         });
     </script>
+    <script>
+      function getseen(){
+         $.ajax({
+           url: '/vendor/getunseen',
+           type: 'GET',
+           success: function(data){
+                     console.log(data)
+             $('#count').html(data)
+           }
+         });
+       }
+       setInterval(() => {
+         getseen()
+     }, 2000);
+     </script>
 </body>
 </html>
